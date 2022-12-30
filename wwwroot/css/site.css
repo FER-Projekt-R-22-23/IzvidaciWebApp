@@ -16,3 +16,11 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.page-container {
+    width: 100vw;
+    display: block;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+}
