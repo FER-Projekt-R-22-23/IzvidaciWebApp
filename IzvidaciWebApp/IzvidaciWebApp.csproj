@@ -13,4 +13,13 @@
     <None Remove="Views\NewFolder1\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="BaseLibrary" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IzvidaciWebApp.Providers.Http\IzvidaciWebApp.Providers.Http.csproj" />
+    <ProjectReference Include="..\IzvidaciWebApp.Providers\IzvidaciWebApp.Providers.csproj" />
+  </ItemGroup>
+
 </Project>
