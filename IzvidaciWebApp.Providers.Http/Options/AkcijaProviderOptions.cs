@@ -9,3 +9,14 @@ public class AkcijaProviderOptions
 {
     public string BaseUrl { get; init; }
 }
+/*
+ * in appsettings the json section should be as:
+{ 
+    ...
+    "AkcijaProviderOptions":
+    {
+        "BaseUrl":"http://localhost:1234/Akcija"
+    }
+    ...
+}
+ */
