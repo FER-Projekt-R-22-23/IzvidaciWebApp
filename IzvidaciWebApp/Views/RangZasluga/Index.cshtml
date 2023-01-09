@@ -1,0 +1,22 @@
+@Model RangZaslugeViewModel
+@{
+    ViewData["Title"] = "Rangovi zasluga";
+}
+<h1>Rangovi zasluga</h1>
+<table class="table table-sm table-striped table-hover" id="tabledrzave">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Naziv</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var rang in Model.rangovi)
+    {
+        <tr>
+            <td class="text-center">@rang.id</td>
+            <td class="text-left">@rang.naziv</td>
+        </tr>
+    }
+    </tbody>
+</table>

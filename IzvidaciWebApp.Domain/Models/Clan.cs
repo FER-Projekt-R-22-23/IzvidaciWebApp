@@ -11,6 +11,7 @@ public class Clan
     private readonly bool _imaMaramu;
     private readonly DateTime? _datumMarama;
     private readonly string? _mjestoMarama;
+    private readonly int _udrugaId;
 
     private readonly List<DodjelaZasluga> _dodjeleZasluga;
     private readonly List<DodjelaStarost> _dodjeleStarost;
@@ -25,6 +26,7 @@ public class Clan
     public bool ImaMaramu => _imaMaramu;
     public DateTime? DatumMarama => _datumMarama;
     public string? MjestoMarama => _mjestoMarama;
+    public int udrugaId => _udrugaId;
 
     public IReadOnlyList<DodjelaStarost> DodjeleStarost => _dodjeleStarost.ToList();
     public IReadOnlyList<DodjelaZasluga> DodjeleZasluga => _dodjeleZasluga.ToList();
@@ -32,7 +34,7 @@ public class Clan
 
     public Clan(int id, string ime, string prezime, DateTime datumRodenja,
                       byte[]? slika, string adresa, bool imaMaramu, DateTime? datumMarama, string? mjestoMarama,
-                      IEnumerable<DodjelaStarost>? rangoviStarost = null,
+                      int udrugaId,IEnumerable<DodjelaStarost>? rangoviStarost = null,
                       IEnumerable<DodjelaZasluga>? rangoviZasluga = null,
                       IEnumerable<Clanarina>? clanarine = null)
     {
@@ -48,5 +50,6 @@ public class Clan
         _dodjeleStarost = rangoviStarost?.ToList() ?? new List<DodjelaStarost>();
         _dodjeleZasluga = rangoviZasluga?.ToList() ?? new List<DodjelaZasluga>();
         _clanarine = clanarine?.ToList() ?? new List<Clanarina>();
+        _udrugaId = udrugaId;
     }
 }

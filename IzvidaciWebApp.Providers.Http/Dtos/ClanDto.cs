@@ -11,4 +11,5 @@ public class ClanDto
     public bool ImaMaramu { get; set; }
     public DateTime? DatumMarama { get; set; }
     public string? MjestoMarama { get; set; }
+    public int udrugaId { get; set; }
 }

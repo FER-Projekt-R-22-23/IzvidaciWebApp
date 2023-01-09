@@ -6,12 +6,6 @@ namespace IzvidaciWebApp.Controllers
 {
     public class ClanstvoController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public ClanstvoController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
 
         public IActionResult Index()
         {
@@ -20,7 +14,7 @@ namespace IzvidaciWebApp.Controllers
 
         public IActionResult Privacy()
         {
-            return View();
+            return Error();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
