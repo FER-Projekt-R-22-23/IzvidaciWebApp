@@ -1,3 +1,4 @@
+using System.Net;
 using IzvidaciWebApp.Providers;
 using IzvidaciWebApp.Providers.Http;
 using IzvidaciWebApp.Providers.Http.Options;
@@ -21,15 +22,26 @@ var akcijaProviderOptions =
     configuration.GetSection("AkcijaProviderOptions")
     .Get<AkcijaProviderOptions>();
 
+var rangZaslugaOptions =
+    configuration.GetSection("RangZaslugaOptions")
+        .Get<RangZaslugaProviderOptions>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 // register the required options
 builder.Services.AddTransient<AkcijaProviderOptions>(services => akcijaProviderOptions);
+builder.Services.AddTransient<RangZaslugaProviderOptions>(services => rangZaslugaOptions);
 
 // register the required providers
 builder.Services.AddTransient<IAkcijaProvider, AkcijaProvider>();
-
+builder.Services.AddTransient<IRangZaslugaProvider, RangZaslugaProvider>();
+HttpClientHandler clientHandler = new HttpClientHandler();
+clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+builder.Services.AddHttpClient("RangZaslugaOptions", client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration.GetSection("Clanstvo").GetValue<String>("BaseUrl"));
+}).ConfigurePrimaryHttpMessageHandler(x => clientHandler);
+System.Net.ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -42,7 +54,6 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
 
 app.UseAuthorization();

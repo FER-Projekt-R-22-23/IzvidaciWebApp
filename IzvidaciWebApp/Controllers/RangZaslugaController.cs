@@ -1,3 +1,4 @@
+using IzvidaciWebApp.Providers;
 using IzvidaciWebApp.Providers.Http;
 using IzvidaciWebApp.Providers.Http.Options;
 using IzvidaciWebApp.ViewModels;
@@ -7,13 +8,20 @@ namespace IzvidaciWebApp.Controllers;
 
 public class RangZaslugaController : Controller
 {
+    private readonly IRangZaslugaProvider _rangZaslugaProvider;
+    public RangZaslugaController(IRangZaslugaProvider rangZaslugaProvider)
+    {
+        _rangZaslugaProvider = rangZaslugaProvider;
+    }
     public async Task<IActionResult> Index()
     {
-        var provider = new RangZaslugaProvider(new RangZaslugaProviderOptions()
+        var result = _rangZaslugaProvider.GetAll();
+        RangZaslugeViewModel rzv = new RangZaslugeViewModel();
+       rzv.rangovi = result.Result.Data.Select(r => new RangZaslugaViewModel
         {
-            BaseUrl = "http://localhost:7273/api/RangZasluga"
+            id = r.Id,
+            naziv = r.Naziv
         });
-        var result = provider.GetAll();
-        return View(result.Data);
+        return View(rzv);
     }
 }
