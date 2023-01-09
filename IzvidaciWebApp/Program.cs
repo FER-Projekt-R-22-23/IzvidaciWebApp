@@ -19,7 +19,7 @@ else
 
 // load the options from the appsettings file for AkcijaProvider
 var akcijaProviderOptions =
-    configuration.GetSection("AkcijaProviderOptions")
+    configuration.GetSection("AkcijaOptions")
     .Get<AkcijaProviderOptions>();
 
 var rangZaslugaOptions =
@@ -35,11 +35,16 @@ builder.Services.AddTransient<RangZaslugaProviderOptions>(services => rangZaslug
 // register the required providers
 builder.Services.AddTransient<IAkcijaProvider, AkcijaProvider>();
 builder.Services.AddTransient<IRangZaslugaProvider, RangZaslugaProvider>();
+builder.Services.AddTransient<IAktivnostProvider, AktivnostiProvider>();
 HttpClientHandler clientHandler = new HttpClientHandler();
 clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 builder.Services.AddHttpClient("RangZaslugaOptions", client =>
 {
     client.BaseAddress = new Uri(builder.Configuration.GetSection("Clanstvo").GetValue<String>("BaseUrl"));
+}).ConfigurePrimaryHttpMessageHandler(x => clientHandler);
+builder.Services.AddHttpClient("AkcijeOptions", client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration.GetSection("Akcije").GetValue<String>("BaseUrl"));
 }).ConfigurePrimaryHttpMessageHandler(x => clientHandler);
 System.Net.ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
 var app = builder.Build();
