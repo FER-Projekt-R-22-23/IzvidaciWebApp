@@ -24,4 +24,10 @@ public class RangZaslugaController : Controller
         });
         return View(rzv);
     }
+
+    public async Task<IActionResult> Delete(int id)
+    {
+        var result = _rangZaslugaProvider.Delete(id).Result;
+        return RedirectToAction(nameof(Index));
+    }
 }

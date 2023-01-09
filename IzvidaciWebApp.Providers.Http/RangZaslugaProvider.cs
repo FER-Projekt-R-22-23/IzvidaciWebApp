@@ -17,15 +17,7 @@ public class RangZaslugaProvider : IRangZaslugaProvider
         _options = options;
         _httpClient = httpClientFactory.CreateClient("RangZaslugaOptions");
     }
-    /*public Result<RangZasluga> Get(int id)
-    {
-        var result = _httpClient.GetFromJsonAsync<IEnumerable<RangZaslugaDto>>($"{id}");
-        if (result.Result!.Any())
-        {
-            var rangovi = result.Result!.Select(r => DtoMapping.ToDomain(r)).ToList()[0];
-        }
-        return Results.OnFailure<RangZasluga>("Rang ne postoji"); 
-    }*/
+
     public async Task<Result<RangZasluga>> Get(int id)
     {
         var rangDto = (await _httpClient.GetFromJsonAsync<IEnumerable<RangZaslugaDto>>($"/api/RangZasluga/{id}"))?.FirstOrDefault();
@@ -51,7 +43,15 @@ public class RangZaslugaProvider : IRangZaslugaProvider
 
     public async Task<Result> Delete(int id)
     {
-       
+        String str = "api/RangZasluga/"+id + "";
+        var response = _httpClient.DeleteAsync(str).IsCompletedSuccessfully;
+        if (!response)
+        {
+            Console.WriteLine("L");
+            return Results.OnFailure("Neuspjesno");
+        }
+
+        return Results.OnSuccess("Uspjesno obrisano");
     }
 
     public async Task<Result> Create(RangZasluga rangZasluga)

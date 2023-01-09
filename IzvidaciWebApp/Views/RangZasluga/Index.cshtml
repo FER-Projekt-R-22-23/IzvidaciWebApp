@@ -16,6 +16,13 @@
         <tr>
             <td class="text-center">@rang.id</td>
             <td class="text-left">@rang.naziv</td>
+            <td>
+                <form asp-action="Delete" method="post"
+                      asp-route-id="@rang.id">
+                    <input type="hidden" name="id" value="@rang.id" />
+                    <button type="submit" class="btn btn-sm btn-danger delete" title="Obriši"><i class="fas fa-trash-alt"></i></button>
+                </form>
+            </td> 
         </tr>
     }
     </tbody>
