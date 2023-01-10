@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Net.Http.Json;
+using System.Text;
 using BaseLibrary;
 using IzvidaciWebApp.Domain.Models;
 using IzvidaciWebApp.Providers.Http.Dtos;
+using IzvidaciWebApp.Providers.Http.Models;
 using IzvidaciWebApp.Providers.Http.Options;
+using Newtonsoft.Json;
 
 namespace IzvidaciWebApp.Providers.Http;
 
@@ -20,7 +23,7 @@ public class RangZaslugaProvider : IRangZaslugaProvider
 
     public async Task<Result<RangZasluga>> Get(int id)
     {
-        var rangDto = (await _httpClient.GetFromJsonAsync<IEnumerable<RangZaslugaDto>>($"/api/RangZasluga/{id}"))?.FirstOrDefault();
+        var rangDto = (await _httpClient.GetFromJsonAsync<RangZaslugaDto>($"/api/RangZasluga/{id}"));
         if (rangDto is not null)
         {
             var rang = DtoMapping.ToDomain(rangDto);
@@ -47,7 +50,6 @@ public class RangZaslugaProvider : IRangZaslugaProvider
         var response = _httpClient.DeleteAsync(str).IsCompletedSuccessfully;
         if (!response)
         {
-            Console.WriteLine("L");
             return Results.OnFailure("Neuspjesno");
         }
 
@@ -56,11 +58,30 @@ public class RangZaslugaProvider : IRangZaslugaProvider
 
     public async Task<Result> Create(RangZasluga rangZasluga)
     {
-        throw new NotImplementedException();
+        String str = "api/RangZasluga/";
+        var json = JsonConvert.SerializeObject(rangZasluga);
+        var data = new StringContent(json,Encoding.UTF8,"application/json");
+        var response = await _httpClient.PostAsync(str, data);
+        if (!response.IsSuccessStatusCode)
+        {
+            Console.WriteLine("ne ide");
+            return Results.OnFailure("Neuspjesno");
+        }
+
+        return Results.OnSuccess("Uspjesno obrisano");
     }
 
-    public async Task<Result> Update(RangZasluga rangZasluga)
+    public async Task<Result> Edit(int id,RangZasluga rangZasluga)
     {
-        throw new NotImplementedException();
+        String str = "api/RangZasluga/"+id;
+        var json = JsonConvert.SerializeObject(rangZasluga);
+        var data = new StringContent(json,Encoding.UTF8,"application/json");
+        var response = _httpClient.PutAsync(str,data);
+        if (!response.IsCompleted)
+        {
+            Console.WriteLine("ne ide");
+            return Results.OnFailure("Neuspjesno");
+        }
+        return Results.OnSuccess("Uspjesno");
     }
 }

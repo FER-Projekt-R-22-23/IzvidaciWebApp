@@ -10,5 +10,5 @@ public interface IRangZaslugaProvider
     Task<Result<IEnumerable<RangZasluga>>>GetAll();
     Task<Result> Delete(int id);
     Task<Result> Create(RangZasluga rangZasluga);
-    Task<Result> Update(RangZasluga rangZasluga);
+    Task<Result> Edit(int id,RangZasluga rangZasluga);
 }

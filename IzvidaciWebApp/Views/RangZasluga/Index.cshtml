@@ -3,6 +3,7 @@
     ViewData["Title"] = "Rangovi zasluga";
 }
 <h1>Rangovi zasluga</h1>
+<a class="nav-link text-dark" asp-area="" asp-controller="RangZasluga" asp-action="Create">Stvori novi rang</a>
 <table class="table table-sm table-striped table-hover" id="tabledrzave">
     <thead>
     <tr>
@@ -23,6 +24,13 @@
                     <button type="submit" class="btn btn-sm btn-danger delete" title="Obriši"><i class="fas fa-trash-alt"></i></button>
                 </form>
             </td> 
+            <td>
+                <form asp-action="Edit" method="get"
+                      asp-route-id="@rang.id">
+                    <input type="hidden" name="id" value="@rang.id" />
+                    <button type="submit" class="btn btn-sm btn-danger delete" title="Uredi"><i class="fas fa-trash-alt"></i></button>
+                </form>
+                </td> 
         </tr>
     }
     </tbody>
