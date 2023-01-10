@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Net.Http.Json;
+using System.Text;
 using BaseLibrary;
 using IzvidaciWebApp.Domain.Models;
 using IzvidaciWebApp.Providers.Http.Dtos;
 using IzvidaciWebApp.Providers.Http.Options;
+using Newtonsoft.Json;
 
 namespace IzvidaciWebApp.Providers.Http;
 
@@ -18,9 +20,9 @@ public class AktivnostiProvider : IAktivnostProvider
         _httpClient = httpClientFactory.CreateClient("AkcijeOptions");
     }
 
-    public async Task<Result<IzvidaciWebApp.Domain.Models.Aktivnost>> Get(int id)
+    public async Task<Result<Aktivnost>> Get(int id)
     {
-        var aktivnostDto = (await _httpClient.GetFromJsonAsync<IEnumerable<IzvidaciWebApp.Providers.Http.Dtos.AktivnostDto>>($"/api/Aktivnosti/{id}"))?.FirstOrDefault();
+        var aktivnostDto = (await _httpClient.GetFromJsonAsync<AktivnostDto>($"/api/Aktivnosti/{id}"));
         if (aktivnostDto is not null)
         {
             var aktivnost = DtoMapping.ToDomain(aktivnostDto);
@@ -47,7 +49,6 @@ public class AktivnostiProvider : IAktivnostProvider
         var response = _httpClient.DeleteAsync(str).IsCompletedSuccessfully;
         if (!response)
         {
-            Console.WriteLine("L");
             return Results.OnFailure("Neuspjesno");
         }
 
@@ -56,11 +57,31 @@ public class AktivnostiProvider : IAktivnostProvider
 
     public async Task<Result> Create(Aktivnost aktivnost)
     {
-        throw new NotImplementedException();
+        String str = "api/Aktivnosti/";
+        var json = JsonConvert.SerializeObject(aktivnost);
+        var data = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = await _httpClient.PostAsync(str, data);
+        if (!response.IsSuccessStatusCode)
+        {
+            Console.WriteLine("ne ide");
+            return Results.OnFailure("Neuspjesno");
+        }
+
+        return Results.OnSuccess("Uspjesno");
     }
 
-    public async Task<Result> Update(Aktivnost aktivnost)
+    public async Task<Result> Edit(int id, Aktivnost aktivnost)
     {
-        throw new NotImplementedException();
+        String str = "api/Aktivnosti/" + id;
+        var json = JsonConvert.SerializeObject(aktivnost);
+        var data = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = _httpClient.PutAsync(str, data);
+        if (!response.IsCompleted)
+        {
+            Console.WriteLine("ne ide");
+            return Results.OnFailure("Neuspjesno");
+        }
+        return Results.OnSuccess("Uspjesno");
     }
+
 }

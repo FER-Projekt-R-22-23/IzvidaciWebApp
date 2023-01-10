@@ -8,6 +8,11 @@
 
 <form asp-action="Create" method="post">
     <div class="mb-3">
+        <label asp-for="IdAktivnost" class="form-label">Id</label>
+        <input asp-for="IdAktivnost" class="form-control" />
+        <div class="form-text"><span asp-validation-for="IdAktivnost" class="text-danger"></span></div>
+    </div>
+    <div class="mb-3">
         <label asp-for="MjestoPbr" class="form-label">Poštanski broj mjesta</label>
         <input asp-for="MjestoPbr" class="form-control" />
         <div class="form-text"><span asp-validation-for="MjestoPbr" class="text-danger"></span></div>

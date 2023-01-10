@@ -11,13 +11,13 @@ public class ProstoriController : Controller
     private readonly IProstoriProvider _prostoriProvider;
     public ProstoriController(IProstoriProvider ProstoriProvider)
     {
-        _ProstoriProvider = ProstoriProvider;
+        _prostoriProvider = ProstoriProvider;
     }
     public async Task<IActionResult> Index()
     {
-        var result = _ProstoriProvider.GetAll();
+        var result = _prostoriProvider.GetAll();
        ProstoriViewModel rzv = new ProstoriViewModel();
-       rzv.prostori = result.Result.Data.Select(r => new ProstoriViewModel
+       rzv.prostori = result.Result.Data.Select(r => new ProstorViewModel
         {
             id = r.Id,
             idUdruge = r.IdUdruge,
@@ -33,7 +33,7 @@ public class ProstoriController : Controller
 
     public async Task<IActionResult> Delete(int id)
     {
-        var result = _ProstoriProvider.Delete(id).Result;
+        var result = _prostoriProvider.Delete(id).Result;
         return RedirectToAction(nameof(Index));
     }
 }

@@ -12,5 +12,3 @@ public interface IProstoriProvider
     Task<Result> Create(Prostori prostori);
     Task<Result> Update(Prostori prostori);
 }
-{
-}
