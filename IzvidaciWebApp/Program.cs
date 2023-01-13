@@ -2,6 +2,7 @@ using System.Net;
 using IzvidaciWebApp.Providers;
 using IzvidaciWebApp.Providers.Http;
 using IzvidaciWebApp.Providers.Http.Options;
+using IzvidaciWebApp.ViewModels;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,14 @@ var akcijaProviderOptions =
     configuration.GetSection("AkcijaOptions")
     .Get<AkcijaProviderOptions>();
 
+var mjestoProviderOptions =
+    configuration.GetSection("MjestoOptions")
+    .Get<MjestoProviderOptions>();
+
+var materijalnePotrebeProviderOptions =
+    configuration.GetSection("MaterijalnaPotrebaOptions")
+    .Get<MaterijalnaPotrebaProviderOptions>();
+
 var rangZaslugaOptions =
     configuration.GetSection("RangZaslugaOptions")
         .Get<RangZaslugaProviderOptions>();
@@ -31,11 +40,15 @@ builder.Services.AddControllersWithViews();
 // register the required options
 builder.Services.AddTransient<AkcijaProviderOptions>(services => akcijaProviderOptions);
 builder.Services.AddTransient<RangZaslugaProviderOptions>(services => rangZaslugaOptions);
+builder.Services.AddTransient<MjestoProviderOptions>(services => mjestoProviderOptions);
+builder.Services.AddTransient<MaterijalnaPotrebaProviderOptions>(services => materijalnePotrebeProviderOptions);
 
 // register the required providers
 builder.Services.AddTransient<IAkcijaProvider, AkcijaProvider>();
 builder.Services.AddTransient<IRangZaslugaProvider, RangZaslugaProvider>();
 builder.Services.AddTransient<IAktivnostProvider, AktivnostiProvider>();
+builder.Services.AddTransient<IMjestoProvider, MjestoProvider>();
+builder.Services.AddTransient<IMaterijalnaPotrebaProvider, MaterijalnaPotrebaProvider>();
 HttpClientHandler clientHandler = new HttpClientHandler();
 clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 builder.Services.AddHttpClient("RangZaslugaOptions", client =>
@@ -45,6 +58,14 @@ builder.Services.AddHttpClient("RangZaslugaOptions", client =>
 builder.Services.AddHttpClient("AkcijeOptions", client =>
 {
     client.BaseAddress = new Uri(builder.Configuration.GetSection("Akcije").GetValue<String>("BaseUrl"));
+}).ConfigurePrimaryHttpMessageHandler(x => clientHandler);
+builder.Services.AddHttpClient("MjestoOptions", client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration.GetSection("Mjesta").GetValue<String>("BaseUrl"));
+}).ConfigurePrimaryHttpMessageHandler(x => clientHandler);
+builder.Services.AddHttpClient("MaterijalnaPotrebaOptions", client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration.GetSection("MaterijalnePotrebe").GetValue<String>("BaseUrl"));
 }).ConfigurePrimaryHttpMessageHandler(x => clientHandler);
 System.Net.ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
 var app = builder.Build();
