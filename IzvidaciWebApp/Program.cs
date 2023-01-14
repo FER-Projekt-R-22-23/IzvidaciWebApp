@@ -34,18 +34,23 @@ var materijalnePotrebeProviderOptions =
 var rangZaslugaOptions =
     configuration.GetSection("RangZaslugaOptions")
         .Get<RangZaslugaProviderOptions>();
+var rangStarostOptions =
+    configuration.GetSection("RangStarostOptions")
+        .Get<RangStarostProviderOptions>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 // register the required options
 builder.Services.AddTransient<AkcijaProviderOptions>(services => akcijaProviderOptions);
 builder.Services.AddTransient<RangZaslugaProviderOptions>(services => rangZaslugaOptions);
+builder.Services.AddTransient<RangStarostProviderOptions>(services => rangStarostOptions);
 builder.Services.AddTransient<MjestoProviderOptions>(services => mjestoProviderOptions);
 builder.Services.AddTransient<MaterijalnaPotrebaProviderOptions>(services => materijalnePotrebeProviderOptions);
 
 // register the required providers
 builder.Services.AddTransient<IAkcijaProvider, AkcijaProvider>();
 builder.Services.AddTransient<IRangZaslugaProvider, RangZaslugaProvider>();
+builder.Services.AddTransient<IRangStarostProvider, RangStarostProvider>();
 builder.Services.AddTransient<IAktivnostProvider, AktivnostiProvider>();
 builder.Services.AddTransient<IMjestoProvider, MjestoProvider>();
 builder.Services.AddTransient<IMaterijalnaPotrebaProvider, MaterijalnaPotrebaProvider>();
@@ -53,6 +58,11 @@ builder.Services.AddTransient<ISkolaProvider, SkolaProvider>();
 HttpClientHandler clientHandler = new HttpClientHandler();
 clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 builder.Services.AddHttpClient("RangZaslugaOptions", client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration.GetSection("Clanstvo").GetValue<String>("BaseUrl"));
+}).ConfigurePrimaryHttpMessageHandler(x => clientHandler);
+
+builder.Services.AddHttpClient("RangStarostOptions", client =>
 {
     client.BaseAddress = new Uri(builder.Configuration.GetSection("Clanstvo").GetValue<String>("BaseUrl"));
 }).ConfigurePrimaryHttpMessageHandler(x => clientHandler);

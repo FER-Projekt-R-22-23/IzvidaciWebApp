@@ -1,9 +1,9 @@
-@Model RangZaslugeViewModel
+@Model RangStarostViewModel
 @{
-    ViewData["Title"] = "Rangovi zasluga";
+    ViewData["Title"] = "Rangovi starosti";
 }
 <h1>Rangovi zasluga</h1>
-<a class="nav-link text-dark" asp-area="" asp-controller="RangZasluga" asp-action="Create">Stvori novi rang po zasluzi</a>
+<a class="nav-link text-dark" asp-area="" asp-controller="RangStarost" asp-action="Create">Stvori novi rang po starosti</a>
 <table class="table table-sm table-striped table-hover">
     <thead>
     <tr>
@@ -28,7 +28,7 @@
                 <form asp-action="Edit" method="get"
                       asp-route-id="@rang.id">
                     <input type="hidden" name="id" value="@rang.id" />
-                    <button type="submit" class="btn btn-sm" title="Uredi"><i class="fas fa-trash-alt"></i></button>
+                    <button type="submit" class="btn btn-sm" title="Uredi"><i class="fas fa-edit"></i></button>
                 </form>
                 </td> 
         </tr>
