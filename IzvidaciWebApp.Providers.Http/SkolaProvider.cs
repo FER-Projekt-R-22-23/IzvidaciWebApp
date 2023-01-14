@@ -22,9 +22,16 @@ public class SkolaProvider : ISkolaProvider
         _httpClient = httpClientFactory.CreateClient("AkcijeOptions");
     }
 
-    public Task<Result<Skola>> Get(int id)
+    public async Task<Result<Skola>> GetSkolaEdukacije(int id)
     {
-        throw new NotImplementedException();
+        var result = await _httpClient.GetFromJsonAsync<SkolaEdukacijeDto>($"/api/Skole/SkoleAggregate/{id}");
+
+        if (result is not null)
+        {
+            var skolaEdukacije = DtoMapping.ToDomainAggregate(result);
+            return Results.OnSuccess<Skola>(skolaEdukacije);
+        }
+        return Results.OnFailure<Skola>("Skola ne postoji");
     }
 
     public async Task<Result<IEnumerable<Skola>>> GetAll()

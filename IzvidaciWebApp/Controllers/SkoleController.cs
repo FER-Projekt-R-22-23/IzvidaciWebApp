@@ -31,6 +31,22 @@ namespace IzvidaciWebApp.Controllers
             return View(skoleViewModel);
         }
 
+        public async Task<IActionResult> SkolaEdukacije(int idSkole)
+        {
+            var result = _skolaProvider.GetSkolaEdukacije(idSkole);
+            EdukacijeViewModel edukacijeViewModel = new EdukacijeViewModel();
+            edukacijeViewModel.IdSkole = idSkole;
+            edukacijeViewModel.NazivSkole = result.Result.Data.NazivSkole;
+            edukacijeViewModel.edukacije = result.Result.Data.EdukacijeUSkoli.Select(r => new EdukacijaViewModel
+            {
+                Id = r.Id,
+                NazivEdukacije = r.NazivEdukacije,
+                MjestoPbr = r.MjestoPbr,
+                Opis = r.OpisEdukacije,
+            });
+            return View(edukacijeViewModel);
+        }
+
         [HttpGet]
         public IActionResult Create()
         {

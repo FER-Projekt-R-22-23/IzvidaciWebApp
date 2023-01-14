@@ -24,3 +24,11 @@ body {
     flex-direction: column;
     min-height: 100vh;
 }
+
+.rowButtons {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}

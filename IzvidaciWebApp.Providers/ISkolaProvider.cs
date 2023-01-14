@@ -9,6 +9,6 @@ using System.Threading.Tasks;
 namespace IzvidaciWebApp.Providers;
 public interface ISkolaProvider
 {
-    Task<Result<Skola>> Get(int id);
+    Task<Result<Skola>> GetSkolaEdukacije(int id);
     Task<Result<IEnumerable<Skola>>> GetAll();
 }
