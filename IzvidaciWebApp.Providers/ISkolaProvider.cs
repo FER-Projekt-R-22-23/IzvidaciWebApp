@@ -11,4 +11,5 @@ public interface ISkolaProvider
 {
     Task<Result<Skola>> GetSkolaEdukacije(int id);
     Task<Result<IEnumerable<Skola>>> GetAll();
+    Task<Result<Edukacija>> GetEdukacija(int id);
 }

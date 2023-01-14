@@ -1,0 +1,40 @@
+﻿@model PredavaciViewModel
+
+@{
+    ViewBag.Title = "Predavaci na edukaciji";
+}
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+
+<h1>Predavaci na edukaciji</h1>
+<table class="table table-sm table-striped table-hover" id="tabledrzave">
+    <thead>
+        <tr>
+            <th>Id predavac</th>
+            <th>Id clan</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var predavac in Model.predavaci)
+        {
+            <tr>
+                <td class="text-left">@predavac.Id</td>
+                <td class="text-left">@predavac.IdClan</td>
+                <td class="btn-group-spacing">
+
+                    <a class="btn btn-sm"
+                        style="background-color:Crimson ;"
+                        hx-confirm="Obrisati cjenik?"
+                        hx-delete="@Url.Action(nameof(SkoleController.Index), new { id = predavac.Id })"
+                        title="Obriši">
+                        <i class="fas fa-trash-alt whiteicon"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts{
+    <script src="~/lib/jqueryui/jquery-ui.js"></script>
+    <script src="~/lib/htmx/htmx.min.js" asp-append-version="true"></script>
+}

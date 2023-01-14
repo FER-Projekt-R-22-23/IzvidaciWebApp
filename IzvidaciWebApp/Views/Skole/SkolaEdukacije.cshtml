@@ -32,9 +32,9 @@
                         title="Obriši">
                         <i class="fas fa-trash-alt whiteicon"></i>
                     </a>
-                    <a asp-action="SkolaEdukacije" asp-route-idSkole="@edukacija.Id" class="btn btn-outline-dark">Prijavljeni polaznici</a>
+                    <a asp-action="EdukacijaPrijavljeni" asp-route-idEdukacije="@edukacija.Id" class="btn btn-outline-dark">Prijavljeni polaznici</a>
                     <a asp-action="SkolaEdukacije" asp-route-idSkole="@edukacija.Id" class="btn btn-outline-dark">Polaznici</a>
-                    <a asp-action="SkolaEdukacije" asp-route-idSkole="@edukacija.Id" class="btn btn-outline-dark">Predavaci</a>
+                    <a asp-action="EdukacijaPredavaci" asp-route-idEdukacije="@edukacija.Id" class="btn btn-outline-dark">Predavaci</a>
                 </td>
             </tr>
         }

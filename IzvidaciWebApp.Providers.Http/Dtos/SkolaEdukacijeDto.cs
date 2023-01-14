@@ -1,5 +1,5 @@
-﻿namespace IzvidaciWebApp.Providers.Http.Dtos;
-using IzvidaciWebApp.Domain.Models;
+﻿using IzvidaciWebApp.Domain.Models;
+namespace IzvidaciWebApp.Providers.Http.Dtos;
 public class SkolaEdukacijeDto
 {
     public int IdSkole { get; set; }

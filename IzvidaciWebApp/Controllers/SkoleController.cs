@@ -47,6 +47,34 @@ namespace IzvidaciWebApp.Controllers
             return View(edukacijeViewModel);
         }
 
+
+        public async Task<IActionResult> EdukacijaPredavaci(int idEdukacije)
+        {
+            var result = _skolaProvider.GetEdukacija(idEdukacije);
+            PredavaciViewModel predavaciViewModel = new PredavaciViewModel();
+            predavaciViewModel.IdEdukacije = idEdukacije;
+            predavaciViewModel.NazivEdukacije = result.Result.Data.NazivEdukacije;
+            predavaciViewModel.predavaci = result.Result.Data.PredavaciNaEdukaciji.Select(r => new PredavacViewModel
+            {
+                Id = r.idPredavac,
+                IdClan = r.idClan
+            });
+            return View(predavaciViewModel);
+        }
+
+        public async Task<IActionResult> EdukacijaPrijavljeni(int idEdukacije)
+        {
+            var result = _skolaProvider.GetEdukacija(idEdukacije);
+            PrijavljeniViewModel prijavljeniViewModel = new PrijavljeniViewModel();
+            prijavljeniViewModel.IdEdukacije = idEdukacije;
+            prijavljeniViewModel.NazivEdukacije = result.Result.Data.NazivEdukacije;
+            prijavljeniViewModel.prijavljeni = result.Result.Data.PrijavljeniNaEdukaciji.Select(r => new PrijavljenViewModel
+            {
+                IdClan = r.idPolaznik,
+                Datum = r.datumPrijave
+            });
+            return View(prijavljeniViewModel);
+        }
         [HttpGet]
         public IActionResult Create()
         {

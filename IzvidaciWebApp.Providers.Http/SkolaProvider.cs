@@ -45,4 +45,16 @@ public class SkolaProvider : ISkolaProvider
         }
         return Results.OnFailure<IEnumerable<Skola>>("Skole ne postoji");
     }
+
+    public async Task<Result<Edukacija>> GetEdukacija(int id)
+    {
+        var result = await _httpClient.GetFromJsonAsync<EdukacijaAggregateDto>($"/api/Edukacija/EdukacijaAggregate/{id}");
+
+        if (result is not null)
+        {
+            var edukacija = DtoMapping.toDomainAggregate(result);
+            return Results.OnSuccess<Edukacija>(edukacija);
+        }
+        return Results.OnFailure<Edukacija>("Edukacija ne postoji");
+    }
 }

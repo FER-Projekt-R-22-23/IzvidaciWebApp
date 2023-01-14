@@ -1,12 +1,4 @@
-﻿using BaseLibrary;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace IzvidaciWebApp.Domain.Models
-{
+﻿namespace IzvidaciWebApp.Domain.Models;
     public class PredavacNaEdukaciji
     {
         private int _idClan;
@@ -21,5 +13,5 @@ namespace IzvidaciWebApp.Domain.Models
         public int idClan { get => _idClan; set => _idClan = value; }
         public int idPredavac { get => _idPredavac; set => _idPredavac = value; }
 
-    }
+
 }
