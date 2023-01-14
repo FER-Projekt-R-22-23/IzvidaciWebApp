@@ -5,11 +5,11 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IzvidaciWebApp", "IzvidaciWebApp\IzvidaciWebApp.csproj", "{660628F5-D22D-4A8D-BC84-F7FD348D8DCB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IzvidaciWebApp.Providers", "IzvidaciWebApp.Providers\IzvidaciWebApp.Providers.csproj", "{AC5F3882-A47C-4C37-9CCB-AD9CAC98AD46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IzvidaciWebApp.Providers", "IzvidaciWebApp.Providers\IzvidaciWebApp.Providers.csproj", "{AC5F3882-A47C-4C37-9CCB-AD9CAC98AD46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IzvidaciWebApp.Providers.Http", "IzvidaciWebApp.Providers.Http\IzvidaciWebApp.Providers.Http.csproj", "{91FA1091-0DD9-42C1-B5F3-B413EFC0A630}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IzvidaciWebApp.Providers.Http", "IzvidaciWebApp.Providers.Http\IzvidaciWebApp.Providers.Http.csproj", "{91FA1091-0DD9-42C1-B5F3-B413EFC0A630}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IzvidaciWebApp.Domain", "IzvidaciWebApp.Domain\IzvidaciWebApp.Domain.csproj", "{846AB067-A816-411A-87D2-AB92E88F51A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IzvidaciWebApp.Domain", "IzvidaciWebApp.Domain\IzvidaciWebApp.Domain.csproj", "{846AB067-A816-411A-87D2-AB92E88F51A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

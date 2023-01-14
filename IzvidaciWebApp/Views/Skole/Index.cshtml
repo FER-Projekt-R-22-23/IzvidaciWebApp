@@ -1,0 +1,38 @@
+﻿@model SkoleViewModel
+
+@{
+    ViewBag.Title = "Skole";
+}
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+
+<h1>Akcije</h1>
+<table class="table table-sm table-striped table-hover" id="tabledrzave">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Naziv</th>
+            <th>Poštanski broj mjesta</th>
+            <th>Organizator</th>
+            <th>Kontakt osoba</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var skola in Model.skole)
+        {
+            <tr>
+                <td class="text-center">@skola.Id</td>
+                <td class="text-left">@skola.NazivSkole</td>
+                <td class="text-left">@skola.MjestoPbr</td>
+                <td class="text-left">@skola.Organizator</td>
+                <td class="text-left">@skola.KontaktOsoba</td>
+                <td>
+                    <form asp-action="Delete" method="post"
+                      asp-route-id="@skola.Id">
+                        <input type="hidden" name="id" value="@skola.Id" />
+                        <button type="submit" class="btn btn-sm btn-danger delete" title="Obriši"><i class="fas fa-trash-alt"></i></button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

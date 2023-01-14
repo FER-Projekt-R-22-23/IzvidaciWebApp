@@ -49,6 +49,7 @@ builder.Services.AddTransient<IRangZaslugaProvider, RangZaslugaProvider>();
 builder.Services.AddTransient<IAktivnostProvider, AktivnostiProvider>();
 builder.Services.AddTransient<IMjestoProvider, MjestoProvider>();
 builder.Services.AddTransient<IMaterijalnaPotrebaProvider, MaterijalnaPotrebaProvider>();
+builder.Services.AddTransient<ISkolaProvider, SkolaProvider>();
 HttpClientHandler clientHandler = new HttpClientHandler();
 clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 builder.Services.AddHttpClient("RangZaslugaOptions", client =>
