@@ -75,6 +75,58 @@ namespace IzvidaciWebApp.Controllers
             });
             return View(prijavljeniViewModel);
         }
+
+        public async Task<IActionResult> EdukacijaPolaznici(int idEdukacije)
+        {
+            var result = _skolaProvider.GetEdukacija(idEdukacije);
+            PolazniciViewModel polazniciViewModel = new PolazniciViewModel();
+            polazniciViewModel.IdEdukacije = idEdukacije;
+            polazniciViewModel.NazivEdukacije = result.Result.Data.NazivEdukacije;
+            polazniciViewModel.polaznici = result.Result.Data.PolazniciEdukacije.Select(r => new PolaznikViewModel
+            {
+                IdClan = r.idPolaznik,
+            });
+            return View(polazniciViewModel);
+        }
+
+        public async Task<IActionResult> DolaziNaEdukaciju(int idEdukacije, int idClan)
+        {
+            var polaznikDomain = new PolaznikNaEdukaciji(idClan);
+            var result = await _skolaProvider.DolaziNaEdukaciju(idEdukacije, polaznikDomain);
+            if (!result.IsSuccess)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> EditSkola(SkolaViewModel skola)
+        {
+            var skolaDomain = new Skola(skola.Id, skola.NazivSkole, skola.MjestoPbr, skola.Organizator, skola.KontaktOsoba);
+            var result = await _skolaProvider.EditSkola(skolaDomain);
+            if (!result.IsSuccess)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditSkola(int id)
+        {
+            var skola = await _aktivnostProvider.Get(id);
+            var akt = new AktivnostViewModel()
+            {
+                IdAktivnost = id,
+                MjestoPbr = aktivnost.Data.MjestoPbr,
+                KontaktOsoba = aktivnost.Data.KontaktOsoba,
+                Opis = aktivnost.Data.Opis,
+                AkcijaId = aktivnost.Data.AkcijaId
+
+            };
+            return View(akt);
+        }
+
         [HttpGet]
         public IActionResult Create()
         {

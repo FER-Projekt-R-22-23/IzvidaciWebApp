@@ -57,4 +57,31 @@ public class SkolaProvider : ISkolaProvider
         }
         return Results.OnFailure<Edukacija>("Edukacija ne postoji");
     }
+
+    public async Task<Result> DolaziNaEdukaciju(int id, PolaznikNaEdukaciji polaznik)
+    {
+        String str = $"/api/Edukacija/DolaziNaEdukaciju/{id}";
+        var json = JsonConvert.SerializeObject(polaznik.ToDto());
+        var data = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = _httpClient.PostAsync(str, data);
+        if (!response.IsCompleted)
+        {
+            return Results.OnFailure("Neuspjesno");
+        }
+        return Results.OnSuccess("Uspjesno");
+    }
+
+    public async Task<Result> EditSkola(Skola skola)
+    {
+        String str = $"api/Skole/{skola.IdSkole}";
+        var json = JsonConvert.SerializeObject(skola);
+        var data = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = _httpClient.PutAsync(str, data);
+        if (!response.IsCompleted)
+        {
+            Console.WriteLine("Greska");
+            return Results.OnFailure("Neuspjesno");
+        }
+        return Results.OnSuccess("Uspjesno");
+    }
 }
