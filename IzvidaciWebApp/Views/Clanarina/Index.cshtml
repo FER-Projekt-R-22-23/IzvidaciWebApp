@@ -1,0 +1,47 @@
+﻿@Model ClanarinaViewModel
+@{
+    ViewData["Title"] = "Clanarine";
+}
+<h1>Članarine</h1>
+<a class="nav-link text-dark" asp-area="" asp-controller="Clanarina" asp-action="Create">Stvori novu članarinu</a>
+<table class="table table-sm table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Plaćenost</th>
+            <th>Iznos</th>
+            <th>Godina</th>
+            <th>ClanId</th>
+            <th>Datum</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var clanarina in Model.clanarine)
+        {
+            <tr>
+                <td class="text-center">@clanarina.Id</td>
+                <td class="text-center">@clanarina.Placenost</td>
+                <td class="text-center">@clanarina.Iznos</td>
+                <td class="text-center">@clanarina.Godina</td>
+                <td class="text-center">@clanarina.ClanId</td>
+               @*<td class="text-center">@clanarina.ClanIme</td>*@
+               @*<td class="text-center">@clanarina.ClanPrezime</td>*@
+                <td class="text-center">@clanarina.Datum</td>
+               <td>
+                    <form asp-action="Delete" method="post"
+                      asp-route-id="@clanarina.Id">
+                        <input type="hidden" name="id" value="@clanarina.Id" />
+                        <button type="submit" class="btn btn-sm btn-danger delete" title="Obriši"><i class="fas fa-trash-alt"></i></button>
+                    </form>
+                </td>
+                <td>
+                    <form asp-action="Edit" method="get"
+                      asp-route-id="@clanarina.Id">
+                        <input type="hidden" name="id" value="@clanarina.Id" />
+                        <button type="submit" class="btn btn-sm" title="Uredi"><i class="fas fa-edit"></i></button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

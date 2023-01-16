@@ -7,6 +7,7 @@ public class Clanarina
     private readonly int _godina;
     private readonly int _clanId;
     private readonly DateTime? _datum;
+    public virtual Clan Clan { get; set; }
 
 
     public int Id => _id;
