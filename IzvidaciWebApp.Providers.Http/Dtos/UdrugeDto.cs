@@ -1,5 +1,6 @@
 ﻿namespace IzvidaciWebApp.Providers.Http.Dtos;
 using IzvidaciWebApp.Domain.Models;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 public class UdrugeDto
@@ -31,5 +32,10 @@ public static partial class DtoMapping
     public static Udruge ToDomain(this UdrugeDto udruga)
     {
         return new Udruge(udruga.IdUdruge, udruga.OIB, udruga.Naziv, udruga.Sjediste, udruga.BrMob, udruga.Mail);
+    }
+
+    internal static object ToDomain(ClanDto c)
+    {
+        throw new NotImplementedException();
     }
 }
