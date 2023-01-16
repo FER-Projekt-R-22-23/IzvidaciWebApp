@@ -1,4 +1,4 @@
-﻿@Model ClanarinaViewModel
+﻿@model  IzvidaciWebApp.ViewModels.ClanarineViewModel
 @{
     ViewData["Title"] = "Clanarine";
 }
@@ -19,21 +19,14 @@
         @foreach (var clanarina in Model.clanarine)
         {
             <tr>
-                <td class="text-center">@clanarina.Id</td>
-                <td class="text-center">@clanarina.Placenost</td>
-                <td class="text-center">@clanarina.Iznos</td>
-                <td class="text-center">@clanarina.Godina</td>
-                <td class="text-center">@clanarina.ClanId</td>
+                <td class="text-left">@clanarina.Id</td>
+                <td class="text-left">@clanarina.Placenost</td>
+                <td class="text-left">@clanarina.Iznos</td>
+                <td class="text-left">@clanarina.Godina</td>
+                <td class="text-left">@clanarina.ClanId</td>
                @*<td class="text-center">@clanarina.ClanIme</td>*@
                @*<td class="text-center">@clanarina.ClanPrezime</td>*@
-                <td class="text-center">@clanarina.Datum</td>
-               <td>
-                    <form asp-action="Delete" method="post"
-                      asp-route-id="@clanarina.Id">
-                        <input type="hidden" name="id" value="@clanarina.Id" />
-                        <button type="submit" class="btn btn-sm btn-danger delete" title="Obriši"><i class="fas fa-trash-alt"></i></button>
-                    </form>
-                </td>
+                <td class="text-left">@clanarina.Datum</td>
                 <td>
                     <form asp-action="Edit" method="get"
                       asp-route-id="@clanarina.Id">
@@ -41,7 +34,16 @@
                         <button type="submit" class="btn btn-sm" title="Uredi"><i class="fas fa-edit"></i></button>
                     </form>
                 </td>
+                 <td>
+                    <form asp-action="Delete" method="post"
+                      asp-route-id="@clanarina.Id">
+                            <input type="hidden" name="id" value="@clanarina.Id" />
+                            <button type="submit" class="btn btn-sm btn-danger delete" title="Obriši"><i class="fas fa-trash-alt"></i></button>
+                    </form>
+                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin="anonymous"></script>
