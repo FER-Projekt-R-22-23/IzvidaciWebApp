@@ -1,8 +1,12 @@
 ﻿@{
     ViewData["Title"] = "Članstvo";
 }
-
-<a>Svi clanovi</a>
-<a class="nav-link text-dark" asp-area="" asp-controller="RangZasluga" asp-action="Index">Rangovi po zasluzi</a>
-<a class="nav-link text-dark" asp-area="" asp-controller="RangStarost" asp-action="Index">Rangovi po starosti</a>
-<a class="nav-link text-dark" asp-area="" asp-controller="Clanarina" asp-action="Index">Članarine</a>
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+<form>
+    <a class="btn btn-outline-info btn-lg" asp-action="Index" asp-controller="Clan">Prikaz svih članova</a>
+    <a class="btn btn-outline-info btn-lg" asp-area="" asp-controller="Clanarina" asp-action="Index">Prikaz svih članarina</a>
+</form>
+<form>
+    <a class="btn btn-outline-warning btn-lg" asp-area="" asp-controller="RangStarost" asp-action="Index">Rangovi po starosti</a>
+    <a class="btn btn-outline-warning btn-lg" asp-area="" asp-controller="RangZasluga" asp-action="Index">Rangovi po zasluzi</a>
+</form>
