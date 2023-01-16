@@ -20,7 +20,7 @@ public class UdrugeProvider : IUdrugeProvider
     public UdrugeProvider(UdrugaProviderOptions options, IHttpClientFactory httpClientFactory)
     {
         _options = options;
-        _httpClient = httpClientFactory.CreateClient("UdrugaOptions");
+        _httpClient = httpClientFactory.CreateClient("UdrugeOptions");
     }
 
 

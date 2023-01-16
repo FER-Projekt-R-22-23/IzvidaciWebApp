@@ -371,3 +371,5 @@ appsettings.*.json
 appsettings.json
 
 **/appsettings.json
+
+.vscode

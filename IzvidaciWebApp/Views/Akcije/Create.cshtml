@@ -1,12 +1,17 @@
-﻿@model IzvidaciWebApp.Providers.Http.Dtos.AktivnostDto;
+﻿@model IzvidaciWebApp.Providers.Http.Dtos.AkcijaDto;
 
 @{
-    ViewBag.Title = "Nova aktivnost";
+    ViewBag.Title = "Nova akcija";
 }
 
-<h2>Unos nove Aktivnosti</h2>
+<h2>Unos nove akcije</h2>
 
 <form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label asp-for="Naziv" class="form-label"></label>
+        <input asp-for="Naziv" class="form-control" />
+        <div class="form-text"><span asp-validation-for="Naziv" class="text-danger"></span></div>
+    </div>
     <div class="mb-3">
         <label asp-for="MjestoPbr" class="form-label">Poštanski broj mjesta</label>
         <input asp-for="MjestoPbr" class="form-control" />
@@ -18,14 +23,14 @@
         <div class="form-text"><span asp-validation-for="KontaktOsoba" class="text-danger"></span></div>
     </div>
     <div class="mb-3">
-        <label asp-for="Opis" class="form-label"></label>
-        <input asp-for="Opis" class="form-control" />
-        <div class="form-text"><span asp-validation-for="Opis" class="text-danger"></span></div>
+        <label asp-for="Organizator" class="form-label"></label>
+        <input asp-for="Organizator" class="form-control" />
+        <div class="form-text"><span asp-validation-for="Organizator" class="text-danger"></span></div>
     </div>
     <div class="mb-3">
-        <label asp-for="AkcijaId" class="form-label">Id akcije</label>
-        <input asp-for="AkcijaId" class="form-control" />
-        <div class="form-text"><span asp-validation-for="AkcijaId" class="text-danger"></span></div>
+        <label asp-for="Vrsta" class="form-label">Vrsta akcije</label>
+        <input asp-for="Vrsta" class="form-control" />
+        <div class="form-text"><span asp-validation-for="Vrsta" class="text-danger"></span></div>
     </div>
     <div class="text-center">
         <button class="btn btn-primary" type="submit">Dodaj</button>

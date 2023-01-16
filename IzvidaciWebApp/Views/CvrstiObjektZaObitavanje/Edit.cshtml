@@ -1,0 +1,38 @@
+﻿@model IzvidaciWebApp.ViewModels.CvrstiObjektZaObitavanjeViewModel
+
+@{
+    ViewBag.Title = "Ažuriranje čvrstog objekta za obitavanje";
+}
+
+<form asp-route-id="@Model.IdTerenskaLokacija" method="post">
+    <div asp-validation-summary="All"></div>
+    <div class="form-group">
+        <div><span asp-validation-for="IdTerenskaLokacija" class="text-danger"></span></div>
+        <input type="hidden" asp-for="IdTerenskaLokacija" class="form-control" />
+
+        <label asp-for="NazivTerenskaLokacija">Naziv</label>
+        <div><span asp-validation-for="NazivTerenskaLokacija" class="text-danger"></span></div>
+        <input asp-for="NazivTerenskaLokacija" class="form-control" />
+
+        <label asp-for="ImaSanitarniCvor">Ima sanitarni čvor</label>
+        <div><span asp-validation-for="ImaSanitarniCvor" class="text-danger"></span></div>
+        <input asp-for="ImaSanitarniCvor" type="checkbox" />
+
+        <label asp-for="MjestoPbr">Naziv</label>
+        <div><span asp-validation-for="MjestoPbr" class="text-danger"></span></div>
+        <input asp-for="MjestoPbr" class="form-control" />
+
+        <label asp-for="Opis">Naziv</label>
+        <div><span asp-validation-for="Opis" class="text-danger"></span></div>
+        <input asp-for="Opis" class="form-control" />
+
+        <label asp-for="BrojPredvidenihSpavacihMjesta">Naziv</label>
+        <div><span asp-validation-for="BrojPredvidenihSpavacihMjesta" class="text-danger"></span></div>
+        <input asp-for="BrojPredvidenihSpavacihMjesta" class="form-control" />
+    </div>
+
+    <div class="text-center">
+        <button class="btn btn-primary" type="submit">Spremi</button>
+        <a asp-action="Index" class="btn" btn-secondary>Odustani</a>
+    </div>
+</form>

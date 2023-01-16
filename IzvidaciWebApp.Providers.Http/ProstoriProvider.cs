@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using System.Net.Http.Json;
 using BaseLibrary;
 using IzvidaciWebApp.Domain.Models;
@@ -56,12 +56,29 @@ public class ProstoriProvider : IProstoriProvider
 
     public async Task<Result> Create(Prostori Prostori)
     {
-        throw new NotImplementedException();
+        String str = "api/Prostori/";
+        var json = JsonConvert.SerializeObject(Prostori);
+        var data = new StringContent(json,Encoding.UTF8,"application/json");
+        var response = await _httpClient.PostAsync(str, data);
+        if (!(response.StatusCode == HttpStatusCode.Accepted))
+        {
+            return Results.OnFailure("Neuspjesno");
+        }
+
+        return Results.OnSuccess("Uspjesno obrisano");
     }
 
-    public async Task<Result> Update(Prostori Prostori)
+    public async Task<Result> Edit(int id, Prostori Prostori)
     {
-        throw new NotImplementedException();
+        String str = "api/Prostori/"+id;
+        var json = JsonConvert.SerializeObject(Prostori);
+        var data = new StringContent(json,Encoding.UTF8,"application/json");
+        var response = _httpClient.PutAsync(str,data);
+        if (!response.IsCompleted)
+        {
+            return Results.OnFailure("Neuspjesno");
+        }
+        return Results.OnSuccess("Uspjesno");
     }
-}
+}*/
 

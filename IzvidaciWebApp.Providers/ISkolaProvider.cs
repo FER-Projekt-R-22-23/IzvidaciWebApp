@@ -14,4 +14,10 @@ public interface ISkolaProvider
     Task<Result<Edukacija>> GetEdukacija(int id);
     Task<Result> DolaziNaEdukaciju(int id, PolaznikNaEdukaciji prijavljen);
     Task<Result> EditSkola(Skola skola);
+    Task<Result<Skola>> GetSkola(int id);
+    Task<Result> DeleteSkola(int id);
+    Task<Result> CreateSkola(Skola skola);
+    Task<Result> CreateEdukacija(int idSkola, Edukacija edukacija);
+    Task<Result> PrijaviPolaznika(int id, PrijavljeniClanNaEdukaciji polaznik);
+    Task<Result> PrijaviPredavaca(int id, PredavacNaEdukaciji predavac);
 }

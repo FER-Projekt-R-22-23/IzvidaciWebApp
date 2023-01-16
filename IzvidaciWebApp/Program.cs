@@ -3,6 +3,7 @@ using IzvidaciWebApp.Providers;
 using IzvidaciWebApp.Providers.Http;
 using IzvidaciWebApp.Providers.Http.Options;
 using IzvidaciWebApp.ViewModels;
+using IzvidaciWebApp.Domain.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,12 +43,20 @@ var udrugeProviderOptions =
     configuration.GetSection("UdrugeOptions")
     .Get<UdrugaProviderOptions>();
 
+var voditeljiUdrugeProviderOptions =
+    configuration.GetSection("VoditeljiUdrugeOptions")
+    .Get<VoditeljUdrugeProviderOptions>();
+
 var clanarinaProviderOptions =
     configuration.GetSection("ClanarinaOptions")
     .Get<ClanarinaProviderOptions>();
 var clanProviderOptions =
     configuration.GetSection("ClanOptions")
     .Get<ClanProviderOptions>();
+
+var cvrstiObjektiZaObitavanjeProviderOptions = 
+    configuration.GetSection("CvrstiObjektZaObitavanjeOptions")
+    .Get<CvrstiObjektZaObitavanjeProviderOptions>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -59,8 +68,12 @@ builder.Services.AddTransient<RangStarostProviderOptions>(services => rangStaros
 builder.Services.AddTransient<MjestoProviderOptions>(services => mjestoProviderOptions);
 builder.Services.AddTransient<MaterijalnaPotrebaProviderOptions>(services => materijalnePotrebeProviderOptions);
 builder.Services.AddTransient<UdrugaProviderOptions>(services => udrugeProviderOptions);
+builder.Services.AddTransient<VoditeljUdrugeProviderOptions>(services => voditeljiUdrugeProviderOptions);
 builder.Services.AddTransient<ClanarinaProviderOptions>(services => clanarinaProviderOptions);
+
 builder.Services.AddTransient<ClanProviderOptions>(services => clanProviderOptions);
+builder.Services.AddTransient<CvrstiObjektZaObitavanjeProviderOptions>(services => cvrstiObjektiZaObitavanjeProviderOptions);
+
 
 // register the required providers
 builder.Services.AddTransient<IAkcijaProvider, AkcijaProvider>();
@@ -72,7 +85,12 @@ builder.Services.AddTransient<IMjestoProvider, MjestoProvider>();
 builder.Services.AddTransient<IMaterijalnaPotrebaProvider, MaterijalnaPotrebaProvider>();
 builder.Services.AddTransient<ISkolaProvider, SkolaProvider>();
 builder.Services.AddTransient<IUdrugeProvider, UdrugeProvider>();
+
 builder.Services.AddTransient<IClanProvider, ClanProvider>();
+
+builder.Services.AddTransient<IVoditeljiUdrugeProvider, VoditeljiUdrugeProvider>();
+builder.Services.AddTransient<ICvrstiObjektZaObitavanjeProvider, CvrstiObjektZaObitavanjeProvider>();
+
 HttpClientHandler clientHandler = new HttpClientHandler();
 clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 builder.Services.AddHttpClient("RangZaslugaOptions", client =>
@@ -111,6 +129,16 @@ builder.Services.AddHttpClient("MaterijalnaPotrebaOptions", client =>
 builder.Services.AddHttpClient("UdrugeOptions", client =>
 {
     client.BaseAddress = new Uri(builder.Configuration.GetSection("Udruge").GetValue<String>("BaseUrl"));
+}).ConfigurePrimaryHttpMessageHandler(x => clientHandler);
+
+builder.Services.AddHttpClient("VoditeljiUdrugeOptions", client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration.GetSection("VoditeljiUdruge").GetValue<String>("BaseUrl"));
+}).ConfigurePrimaryHttpMessageHandler(x => clientHandler);
+
+builder.Services.AddHttpClient("CvrstiObjektZaObitavanjeOptions", client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration.GetSection("CvrstiObjektiZaObitavanje").GetValue<String>("BaseUrl"));
 }).ConfigurePrimaryHttpMessageHandler(x => clientHandler);
 System.Net.ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
 var app = builder.Build();
