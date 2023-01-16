@@ -20,19 +20,19 @@
             <td>
                 <form>
                     <a asp-action="Delete" method="post"
-                    asp-route-id="@rang.id"
-                    class="btn btn-danger" title="Obriši"><i class="fas fa-trash-alt"></i> Obriši</a>
+                       asp-route-id="@rang.id"
+                       class="btn btn-danger" title="Obriši"><i class="fas fa-trash-alt"></i></a>
                 </form>
             </td> 
-            <!--<td> 
+            <td> 
                 <form asp-action="Edit" method="get"
                       asp-route-id="@rang.id">
-                    <input type="hidden" name="id" value="@rang.id" />
                     <button type="submit" class="btn btn-sm" title="Uredi"><i class="fas fa-edit"></i></button>
                 </form>
-                    
-                </td> -->
+            </td>
         </tr>
     }
     </tbody>
 </table>
+
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin="anonymous"></script>
