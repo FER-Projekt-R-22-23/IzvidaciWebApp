@@ -15,9 +15,10 @@ namespace IzvidaciWebApp.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var result = mjestoProvider.GetAll();
+            
+            var result = await mjestoProvider.GetAll();
             UdrugeViewModel akt = new UdrugeViewModel();
-            akt.udruge = result.Result.Data.Select(r => {
+            akt.udruge = result.Data.Select(r => { 
                 return new UdrugaViewModel
                 {
                     IdUdruge = r.IdUdruge,
