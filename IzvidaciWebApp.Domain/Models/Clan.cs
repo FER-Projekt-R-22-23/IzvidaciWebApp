@@ -16,6 +16,15 @@ public class Clan
     private readonly List<DodjelaZasluga> _dodjeleZasluga;
     private readonly List<DodjelaStarost> _dodjeleStarost;
     private readonly List<Clanarina> _clanarine;
+    private int id;
+    private string ime;
+    private string prezime;
+    private DateTime datumRodenja;
+    private byte[]? slika;
+    private string adresa;
+    private bool imaMaramu;
+    private DateTime? datumMarama;
+    private string? mjestoMarama;
 
     public int Id => _id;
     public string Ime => _ime;
@@ -51,5 +60,18 @@ public class Clan
         _dodjeleZasluga = rangoviZasluga?.ToList() ?? new List<DodjelaZasluga>();
         _clanarine = clanarine?.ToList() ?? new List<Clanarina>();
         _udrugaId = udrugaId;
+    }
+
+    public Clan(int id, string ime, string prezime, DateTime datumRodenja, byte[]? slika, string adresa, bool imaMaramu, DateTime? datumMarama, string? mjestoMarama)
+    {
+        this.id = id;
+        this.ime = ime;
+        this.prezime = prezime;
+        this.datumRodenja = datumRodenja;
+        this.slika = slika;
+        this.adresa = adresa;
+        this.imaMaramu = imaMaramu;
+        this.datumMarama = datumMarama;
+        this.mjestoMarama = mjestoMarama;
     }
 }

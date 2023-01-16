@@ -45,6 +45,9 @@ var udrugeProviderOptions =
 var clanarinaProviderOptions =
     configuration.GetSection("ClanarinaOptions")
     .Get<ClanarinaProviderOptions>();
+var clanProviderOptions =
+    configuration.GetSection("ClanOptions")
+    .Get<ClanProviderOptions>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -57,6 +60,7 @@ builder.Services.AddTransient<MjestoProviderOptions>(services => mjestoProviderO
 builder.Services.AddTransient<MaterijalnaPotrebaProviderOptions>(services => materijalnePotrebeProviderOptions);
 builder.Services.AddTransient<UdrugaProviderOptions>(services => udrugeProviderOptions);
 builder.Services.AddTransient<ClanarinaProviderOptions>(services => clanarinaProviderOptions);
+builder.Services.AddTransient<ClanProviderOptions>(services => clanProviderOptions);
 
 // register the required providers
 builder.Services.AddTransient<IAkcijaProvider, AkcijaProvider>();
@@ -68,6 +72,7 @@ builder.Services.AddTransient<IMjestoProvider, MjestoProvider>();
 builder.Services.AddTransient<IMaterijalnaPotrebaProvider, MaterijalnaPotrebaProvider>();
 builder.Services.AddTransient<ISkolaProvider, SkolaProvider>();
 builder.Services.AddTransient<IUdrugeProvider, UdrugeProvider>();
+builder.Services.AddTransient<IClanProvider, ClanProvider>();
 HttpClientHandler clientHandler = new HttpClientHandler();
 clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 builder.Services.AddHttpClient("RangZaslugaOptions", client =>
@@ -81,6 +86,11 @@ builder.Services.AddHttpClient("RangStarostOptions", client =>
 }).ConfigurePrimaryHttpMessageHandler(x => clientHandler);
 
 builder.Services.AddHttpClient("ClanarinaOptions", client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration.GetSection("Clanstvo").GetValue<String>("BaseUrl"));
+}).ConfigurePrimaryHttpMessageHandler(x => clientHandler);
+
+builder.Services.AddHttpClient("ClanOptions", client =>
 {
     client.BaseAddress = new Uri(builder.Configuration.GetSection("Clanstvo").GetValue<String>("BaseUrl"));
 }).ConfigurePrimaryHttpMessageHandler(x => clientHandler);
