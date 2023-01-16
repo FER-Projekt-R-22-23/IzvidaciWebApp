@@ -209,5 +209,57 @@ namespace IzvidaciWebApp.Controllers
             }
             return RedirectToAction(nameof(EdukacijaPredavaci), new { idEdukacije = idEdukacije });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> EditEdukacija(EdukacijaViewModel edukacija)
+        {
+            Edukacija edukacijaDomain = new Edukacija(edukacija.Id, edukacija.NazivEdukacije, edukacija.MjestoPbr, edukacija.Opis, edukacija.IdSkole);
+            var result = await _skolaProvider.EditEdukacija(edukacijaDomain);
+            if (!result.IsSuccess)
+            {
+                return View();
+            }
+            return View();
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditEdukacija(int id)
+        {
+
+            var edukacija = await _skolaProvider.GetEdukacijaBasic(id);
+            ViewBag.skolaId = edukacija.Data.SkolaId;
+
+            var edukacijaViewModel = new EdukacijaViewModel
+            {
+                Id = edukacija.Data.Id,
+                NazivEdukacije = edukacija.Data.NazivEdukacije,
+                MjestoPbr = edukacija.Data.MjestoPbr,
+                Opis = edukacija.Data.OpisEdukacije,
+                IdSkole = edukacija.Data.SkolaId
+            };
+            return View(edukacijaViewModel);
+        }
+
+        public async Task<IActionResult> OdjaviPolaznika(int idEdukacije, int idClan)
+        {
+            var result = await _skolaProvider.OdjaviClana(idEdukacije, idClan);
+            if (!result.IsSuccess)
+            {
+                return RedirectToAction(nameof(EdukacijaPrijavljeni), new { idEdukacije = idEdukacije });
+            }
+            return RedirectToAction(nameof(EdukacijaPrijavljeni), new { idEdukacije = idEdukacije });
+        }
+
+        public async Task<IActionResult> DeleteEdukacija(int id, int idSkole)
+        {
+            var result = await _skolaProvider.DeleteEdukacija(id);
+            if (!result.IsSuccess)
+            {
+                Console.WriteLine("Not Succesful!");
+                return RedirectToAction(nameof(SkolaEdukacije), new { idSkole = idSkole });
+            }
+            return RedirectToAction(nameof(SkolaEdukacije), new { idSkole = idSkole });
+        }
     }
 }

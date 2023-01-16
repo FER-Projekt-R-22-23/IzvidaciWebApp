@@ -27,9 +27,9 @@
                 <td class="text-left">@prijavljen.IdClan</td>
                 <td class="text-left">@prijavljen.Datum.ToString("dd/MM/yyyy")</td>
                 <td style="width: auto;">
-                    <div style="display: flex; margine-right: 0px;">
-                        <form style="flex: 1;" asp-action="DolaziNaEdukaciju" method="post" asp-route-idEdukacije="@Model.IdEdukacije" asp-route-idClan="@prijavljen.IdClan">
-                            <button style="margine-right: 0px;" type="submit" class="btn btn-outline-dark">
+                    <div style="display: flex; margin-right: 0px;">
+                        <form style="flex: 1;" asp-action="OdjaviPolaznika" method="post" asp-route-idEdukacije="@Model.IdEdukacije" asp-route-idClan="@prijavljen.IdClan">
+                            <button style="margin-right: 0px;" type="submit" class="btn btn-outline-dark">
                             Odjavi
                         </button>
                     </form>
