@@ -70,7 +70,7 @@ namespace IzvidaciWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            Console.Write("dsadskda\n");
+            
             var mjesto = await mjestoProvider.Get(id);
             var akt = new UdrugaViewModel()
             {
