@@ -41,6 +41,11 @@ var rangStarostOptions =
 var udrugeProviderOptions =
     configuration.GetSection("UdrugeOptions")
     .Get<UdrugaProviderOptions>();
+
+var clanarinaProviderOptions =
+    configuration.GetSection("ClanarinaOptions")
+    .Get<ClanarinaProviderOptions>();
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -51,11 +56,13 @@ builder.Services.AddTransient<RangStarostProviderOptions>(services => rangStaros
 builder.Services.AddTransient<MjestoProviderOptions>(services => mjestoProviderOptions);
 builder.Services.AddTransient<MaterijalnaPotrebaProviderOptions>(services => materijalnePotrebeProviderOptions);
 builder.Services.AddTransient<UdrugaProviderOptions>(services => udrugeProviderOptions);
+builder.Services.AddTransient<ClanarinaProviderOptions>(services => clanarinaProviderOptions);
 
 // register the required providers
 builder.Services.AddTransient<IAkcijaProvider, AkcijaProvider>();
 builder.Services.AddTransient<IRangZaslugaProvider, RangZaslugaProvider>();
 builder.Services.AddTransient<IRangStarostProvider, RangStarostProvider>();
+builder.Services.AddTransient<IClanarineProvider, ClanarinaProvider>();
 builder.Services.AddTransient<IAktivnostProvider, AktivnostiProvider>();
 builder.Services.AddTransient<IMjestoProvider, MjestoProvider>();
 builder.Services.AddTransient<IMaterijalnaPotrebaProvider, MaterijalnaPotrebaProvider>();
@@ -72,6 +79,12 @@ builder.Services.AddHttpClient("RangStarostOptions", client =>
 {
     client.BaseAddress = new Uri(builder.Configuration.GetSection("Clanstvo").GetValue<String>("BaseUrl"));
 }).ConfigurePrimaryHttpMessageHandler(x => clientHandler);
+
+builder.Services.AddHttpClient("ClanarinaOptions", client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration.GetSection("Clanstvo").GetValue<String>("BaseUrl"));
+}).ConfigurePrimaryHttpMessageHandler(x => clientHandler);
+
 builder.Services.AddHttpClient("AkcijeOptions", client =>
 {
     client.BaseAddress = new Uri(builder.Configuration.GetSection("Akcije").GetValue<String>("BaseUrl"));
