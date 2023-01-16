@@ -2,11 +2,15 @@
     ViewData["Title"] = "Članstvo";
 }
 <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-<form>
-    <a class="btn btn-outline-info btn-lg" asp-action="Index" asp-controller="Clan">Prikaz svih članova</a>
-    <a class="btn btn-outline-info btn-lg" asp-area="" asp-controller="Clanarina" asp-action="Index">Prikaz svih članarina</a>
+<form style="padding: 3%">
+    <a class="btn btn-primary btn-lg" asp-action="Index" asp-controller="Clan">Prikaz svih članova</a>
 </form>
-<form>
-    <a class="btn btn-outline-warning btn-lg" asp-area="" asp-controller="RangStarost" asp-action="Index">Rangovi po starosti</a>
-    <a class="btn btn-outline-warning btn-lg" asp-area="" asp-controller="RangZasluga" asp-action="Index">Rangovi po zasluzi</a>
+<form style="padding: 3%">
+    <a class="btn btn-primary btn-lg" asp-area="" asp-controller="Clanarina" asp-action="Index">Prikaz svih članarina</a>
+</form>
+<form style="padding: 3%">
+    <a class="btn btn-info btn-lg" asp-area="" asp-controller="RangStarost" asp-action="Index">Rangovi po starosti</a>
+</form>
+<form style="padding: 3%">
+    <a class="btn btn-info btn-lg" asp-area="" asp-controller="RangZasluga" asp-action="Index">Rangovi po zasluzi</a>
 </form>
