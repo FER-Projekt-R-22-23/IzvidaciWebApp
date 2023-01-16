@@ -28,7 +28,7 @@ public class AktivnostiProvider : IAktivnostProvider
             var aktivnost = DtoMapping.ToDomain(aktivnostDto);
             return Results.OnSuccess<IzvidaciWebApp.Domain.Models.Aktivnost>(aktivnost);
         }
-        return Results.OnFailure<IzvidaciWebApp.Domain.Models.Aktivnost>("Rang ne postoji");
+        return Results.OnFailure<IzvidaciWebApp.Domain.Models.Aktivnost>("Aktivnost ne postoji");
     }
 
     public async Task<Result<IEnumerable<Aktivnost>>> GetAll()
@@ -40,12 +40,12 @@ public class AktivnostiProvider : IAktivnostProvider
             var aktivnost = aktivnostDto.Select(r => DtoMapping.ToDomain(r));
             return Results.OnSuccess<IEnumerable<IzvidaciWebApp.Domain.Models.Aktivnost>>(aktivnost);
         }
-        return Results.OnFailure<IEnumerable<IzvidaciWebApp.Domain.Models.Aktivnost>>("Rangovi ne postoji");
+        return Results.OnFailure<IEnumerable<IzvidaciWebApp.Domain.Models.Aktivnost>>("Aktivnosti ne postoji");
     }
 
     public async Task<Result> Delete(int id)
     {
-        String str = "api/Aktivnosti/" + id + "";
+        String str = "api/Aktivnosti/" + id;
         var response = _httpClient.DeleteAsync(str).IsCompletedSuccessfully;
         if (!response)
         {

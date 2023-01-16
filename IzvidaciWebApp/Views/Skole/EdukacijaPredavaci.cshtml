@@ -6,6 +6,13 @@
 <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 
 <h1>Predavaci na edukaciji</h1>
+<form asp-route-idEdukacije="@Model.IdEdukacije" asp-action="PrijaviPredavaca" method="post">
+    <div class="form-group">
+        <label for="idClan">Id clana</label>
+        <input type="text" id="idClan" name="idClan">
+        <button class="btn btn-primary" type="submit">Dodaj predavaca</button>
+    </div>
+</form>
 <table class="table table-sm table-striped table-hover" id="tabledrzave">
     <thead>
         <tr>

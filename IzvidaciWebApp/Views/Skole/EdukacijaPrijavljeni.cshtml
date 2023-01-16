@@ -6,6 +6,13 @@
 <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 
 <h1>Prijavljeni na edukaciju</h1>
+<form asp-route-idEdukacije="@Model.IdEdukacije" asp-action="PrijaviPolaznika" method="post">
+    <div class="form-group">
+        <label for="idClan">Id clana</label>
+        <input type="text" id="idClan" name="idClan">
+        <button class="btn btn-primary" type="submit">Prijavi</button>
+    </div>
+</form>
 <table class="table table-sm table-striped table-hover" >
     <thead>
         <tr>
@@ -19,19 +26,19 @@
             <tr>
                 <td class="text-left">@prijavljen.IdClan</td>
                 <td class="text-left">@prijavljen.Datum.ToString("dd/MM/yyyy")</td>
-                <td class="btn-group-spacing">
-
-                    <a class="btn btn-sm"
-                        style="background-color:Crimson ;"
-                        hx-confirm="Obrisati cjenik?"
-                        hx-delete="@Url.Action(nameof(SkoleController.Index), new { id = prijavljen.IdClan })"
-                        title="Obriši">
-                        <i class="fas fa-trash-alt whiteicon"></i>
-                    </a>
-                    <form asp-action="DolaziNaEdukaciju" method="post" asp-route-idEdukacije="@Model.IdEdukacije" asp-route-idClan="@prijavljen.IdClan">
-                        <button type="submit" class="btn btn-outline-dark"> Dolazi
+                <td style="width: auto;">
+                    <div style="display: flex; margine-right: 0px;">
+                        <form style="flex: 1;" asp-action="DolaziNaEdukaciju" method="post" asp-route-idEdukacije="@Model.IdEdukacije" asp-route-idClan="@prijavljen.IdClan">
+                            <button style="margine-right: 0px;" type="submit" class="btn btn-outline-dark">
+                            Odjavi
                         </button>
                     </form>
+                        <form style="flex: 1;" asp-action="DolaziNaEdukaciju" method="post" asp-route-idEdukacije="@Model.IdEdukacije" asp-route-idClan="@prijavljen.IdClan">
+                            <button style="margin-left: 0px;"  type="submit" class="btn btn-outline-dark">
+                                Dolazi
+                        </button>
+                    </form>
+                    </div>
                 </td>
             </tr>
         }

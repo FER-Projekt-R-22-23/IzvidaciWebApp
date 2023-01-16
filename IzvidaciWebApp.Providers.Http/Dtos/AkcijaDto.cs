@@ -1,5 +1,6 @@
-﻿namespace IzvidaciWebApp.Providers.Http.Dtos;
-using IzvidaciWebApp.Domain.Models;
+﻿using IzvidaciWebApp.Domain.Models;
+
+namespace IzvidaciWebApp.Providers.Http.Dtos;
 public class AkcijaDto
 {
     public int IdAkcije { get; set; }
@@ -10,13 +11,15 @@ public class AkcijaDto
 
     public string? Vrsta { get; set; }
 
+}
+
     public static partial class DtoMapping
     {
-       /* public static AkcijaDto ToDto(this IzvidaciWebApp.Domain.Models.Akcija akcija)
+       public static AkcijaDto ToDto(this IzvidaciWebApp.Domain.Models.Akcija akcija)
         {
             return new AkcijaDto()
             {
-                IdAkcije = akcija.Id,
+                IdAkcije = akcija.IdAkcije,
                 Naziv = akcija.Naziv,
                 MjestoPbr = akcija.MjestoPbr,
                 Organizator = akcija.Organizator,
@@ -29,7 +32,7 @@ public class AkcijaDto
         public static IzvidaciWebApp.Domain.Models.Akcija ToDomain(this AkcijaDto akcija)
         {
             return new IzvidaciWebApp.Domain.Models.Akcija(akcija.IdAkcije, akcija.Naziv, akcija.MjestoPbr, akcija.Organizator, akcija.KontaktOsoba, akcija.Vrsta);
-        }*/
+        }
 
     }
-}
+

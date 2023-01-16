@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using System.Net.Http.Json;
 using BaseLibrary;
 using IzvidaciWebApp.Domain.Models;
@@ -80,5 +80,5 @@ public class ProstoriProvider : IProstoriProvider
         }
         return Results.OnSuccess("Uspjesno");
     }
-}
+}*/
 

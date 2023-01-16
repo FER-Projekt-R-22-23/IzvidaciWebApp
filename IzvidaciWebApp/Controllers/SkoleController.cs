@@ -4,6 +4,7 @@ using IzvidaciWebApp.Providers;
 using IzvidaciWebApp.Providers.Http;
 using IzvidaciWebApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Diagnostics;
 
 namespace IzvidaciWebApp.Controllers
@@ -95,14 +96,54 @@ namespace IzvidaciWebApp.Controllers
             var result = await _skolaProvider.DolaziNaEdukaciju(idEdukacije, polaznikDomain);
             if (!result.IsSuccess)
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(EdukacijaPrijavljeni), new { idEdukacije = idEdukacije });
             }
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(EdukacijaPrijavljeni), new { idEdukacije = idEdukacije });
         }
 
+        [HttpGet]
+        public async Task<IActionResult> EditSkola(int id)
+        {
+            var skola  = await _skolaProvider.GetSkola(id);
+            var skolaViewModel = new SkolaViewModel
+            {
+                Id = skola.Data.IdSkole,
+                NazivSkole = skola.Data.NazivSkole,
+                MjestoPbr = skola.Data.MjestoPbr,
+                Organizator = skola.Data.Organizator,
+                KontaktOsoba = skola.Data.KontaktOsoba,
+            };
+            return View(skolaViewModel);
+        }
+
+        [HttpGet]
+        public IActionResult CreateSkola()
+        {
+            return View();
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> CreateSkola(SkolaViewModel skola)
+        {
+            if (skola is not null)
+            {
+                Skola skolaDomain = new Skola(skola.Id, skola.NazivSkole, skola.MjestoPbr, skola.Organizator, skola.KontaktOsoba);
+
+                var result = await _skolaProvider.CreateSkola(skolaDomain);
+                if (!result.IsSuccess)
+                {
+                    Console.Out.WriteLine("Neuspjesno!");
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+        
+        [HttpPost]
         public async Task<IActionResult> EditSkola(SkolaViewModel skola)
         {
-            var skolaDomain = new Skola(skola.Id, skola.NazivSkole, skola.MjestoPbr, skola.Organizator, skola.KontaktOsoba);
+            Skola skolaDomain = new Skola(skola.Id, skola.NazivSkole, skola.MjestoPbr, skola.Organizator, skola.KontaktOsoba);
             var result = await _skolaProvider.EditSkola(skolaDomain);
             if (!result.IsSuccess)
             {
@@ -110,30 +151,63 @@ namespace IzvidaciWebApp.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
-
-        [HttpGet]
-        /*public async Task<IActionResult> EditSkola(int id)
+        
+        public async Task<IActionResult> DeleteSkola(int id)
         {
-            var skola = await _aktivnostProvider.Get(id);
-            var akt = new AktivnostViewModel()
+            var result = await _skolaProvider.DeleteSkola(id);
+            if (!result.IsSuccess)
             {
-                IdAktivnost = id,
-                MjestoPbr = aktivnost.Data.MjestoPbr,
-                KontaktOsoba = aktivnost.Data.KontaktOsoba,
-                Opis = aktivnost.Data.Opis,
-                AkcijaId = aktivnost.Data.AkcijaId
-
-            };
-            return View(akt);
-        }*/
+                Console.WriteLine("Not Succesful!");
+                return RedirectToAction(nameof(Index));
+            }
+            return RedirectToAction(nameof(Index));
+        }
 
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult CreateEdukacija(int idSkole)
         {
+            ViewBag.idSkole = idSkole;
             return View();
         }
 
-      
+        [HttpPost]
+        public async Task<IActionResult> CreateEdukacija(int skolaId, EdukacijaViewModel edukacija)
+        {
+            if (edukacija is not null)
+            {
+                Edukacija edukacijaDomain = new Edukacija(edukacija.Id, edukacija.NazivEdukacije,edukacija.MjestoPbr, edukacija.Opis, skolaId);
 
+                var result = await _skolaProvider.CreateEdukacija(skolaId, edukacijaDomain);
+                if (!result.IsSuccess)
+                {
+                    Console.Out.WriteLine(edukacija.NazivEdukacije);
+                    return RedirectToAction(nameof(SkolaEdukacije), new { idSkole = skolaId });
+                }
+            }
+
+            return RedirectToAction(nameof(SkolaEdukacije), new { idSkole = skolaId });
+        }
+
+        public async Task<IActionResult> PrijaviPolaznika(int idEdukacije, int idClan)
+        {
+            var polaznikDomain = new PrijavljeniClanNaEdukaciji(idClan, DateTime.Now);
+            var result = await _skolaProvider.PrijaviPolaznika(idEdukacije, polaznikDomain);
+            if (!result.IsSuccess)
+            {
+                return RedirectToAction(nameof(EdukacijaPrijavljeni), new { idEdukacije = idEdukacije });
+            }
+            return RedirectToAction(nameof(EdukacijaPrijavljeni), new { idEdukacije = idEdukacije });
+        }
+
+        public async Task<IActionResult> PrijaviPredavaca(int idEdukacije, int idClan)
+        {
+            var predavacDomain = new PredavacNaEdukaciji(0, idClan);
+            var result = await _skolaProvider.PrijaviPredavaca(idEdukacije, predavacDomain);
+            if (!result.IsSuccess)
+            {
+                return RedirectToAction(nameof(EdukacijaPredavaci), new { idEdukacije = idEdukacije });
+            }
+            return RedirectToAction(nameof(EdukacijaPredavaci), new { idEdukacije = idEdukacije });
+        }
     }
 }
