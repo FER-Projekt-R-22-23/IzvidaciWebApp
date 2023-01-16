@@ -3,6 +3,7 @@
     ViewData["Title"] = "Akcije";
 }
 <h1>Akcije</h1>
+<a asp-action="Create">Unos nove akcije</a>
 <table class="table table-sm table-striped table-hover" id="tabledrzave">
     <thead>
         <tr>
@@ -28,7 +29,14 @@
                     <form asp-action="Delete" method="post"
                       asp-route-id="@akcija.IdAkcije">
                         <input type="hidden" name="id" value="@akcija.IdAkcije" />
-                        <button type="submit" class="btn btn-sm btn-danger delete" title="Obriši"><i class="fas fa-trash-alt"></i></button>
+                        <button type="submit" class="btn btn-sm btn-danger delete" title="Obriši">Obriši</button>
+                    </form>
+                </td>
+                <td>
+                    <form asp-action="Edit" method="get"
+                      asp-route-id="@akcija.IdAkcije">
+                        <input type="hidden" name="id" value="@akcija.IdAkcije" />
+                        <button type="submit" class="btn btn-sm update" title="Uredi">Uredi</button>
                     </form>
                 </td>
             </tr>

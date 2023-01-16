@@ -6,6 +6,7 @@
 <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 
 <h1>Skole</h1>
+<a asp-action="CreateSkola" class="btn btn-outline-dark">Unos nove skole</a>
 <table class="table table-sm table-striped table-hover" id="tabledrzave">
     <thead>
         <tr>
@@ -26,11 +27,15 @@
                 <td class="text-left">@skola.Organizator</td>
                 <td class="text-left">@skola.KontaktOsoba</td>
                 <td class="btn-group-spacing">
+                    <a class="btn btn-sm"
+                   style="background-color:gold;"
+                   method="get" asp-action="EditSkola" asp-route-id="@skola.Id"
+                   title="Ažuriraj"><i class="fas fa-edit whiteicon"></i></a>
 
                     <a class="btn btn-sm"
                         style="background-color:Crimson ;"
-                        hx-confirm="Obrisati cjenik?"
-                        hx-delete="@Url.Action(nameof(SkoleController.Index), new { id = skola.Id })"
+                        hx-confirm="Obrisati skolu?"
+                        asp-action="DeleteSkola" asp-route-id="@skola.Id"
                         title="Obriši">
                         <i class="fas fa-trash-alt whiteicon"></i>
                     </a>
