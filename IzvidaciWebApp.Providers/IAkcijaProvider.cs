@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 namespace IzvidaciWebApp.Providers;
 public interface IAkcijaProvider
 {
-    Result<Akcija> Get(int id);
-    Result<IEnumerable<Akcija>> GetAll();
+    Task<Result<Akcija>> Get(int id);
+    Task<Result<IEnumerable<Akcija>>> GetAll();
+    Task<Result> Delete(int id);
+    Task<Result> Create(Akcija akcija);
+    Task<Result> Edit(int id, Akcija akcija);
 }

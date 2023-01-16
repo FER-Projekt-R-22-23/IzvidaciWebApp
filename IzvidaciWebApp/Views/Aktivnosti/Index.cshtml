@@ -1,6 +1,6 @@
-﻿@Model AktivnostiViewModel
+﻿
 @{
-    ViewData["Title"] = "Akcije";
+    ViewData["Title"] = "Aktivnosti";
 }
 <a asp-action="Create">Unos nove aktivnosti</a>
 <h1>Aktivnosti</h1>
@@ -28,14 +28,14 @@
                     <form asp-action="Delete" method="post"
                       asp-route-id="@aktivnost.IdAktivnost">
                         <input type="hidden" name="id" value="@aktivnost.IdAktivnost" />
-                        <button type="submit" class="btn btn-sm btn-danger delete" title="Obriši">@*<i class="fas fa-trash-alt"></i>*@Obriši</button>
+                        <button type="submit" class="btn btn-sm btn-danger delete" title="Obriši">Obriši</button>
                     </form>
                 </td>
                 <td>
                     <form asp-action="Edit" method="get"
                       asp-route-id="@aktivnost.IdAktivnost">
                         <input type="hidden" name="id" value="@aktivnost.IdAktivnost" />
-                        <button type="submit" class="btn btn-sm btn-danger update" title="Uredi">@*<i class="fas fa-trash-alt"></i>*@Uredi</button>
+                        <button type="submit" class="btn btn-sm btn-danger update" title="Uredi">Uredi</button>
                     </form>
                 </td>
             </tr>
