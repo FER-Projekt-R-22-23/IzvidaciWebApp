@@ -50,6 +50,9 @@ var voditeljiUdrugeProviderOptions =
 var clanarinaProviderOptions =
     configuration.GetSection("ClanarinaOptions")
     .Get<ClanarinaProviderOptions>();
+var clanProviderOptions =
+    configuration.GetSection("ClanOptions")
+    .Get<ClanProviderOptions>();
 
 var cvrstiObjektiZaObitavanjeProviderOptions = 
     configuration.GetSection("CvrstiObjektZaObitavanjeOptions")
@@ -67,7 +70,10 @@ builder.Services.AddTransient<MaterijalnaPotrebaProviderOptions>(services => mat
 builder.Services.AddTransient<UdrugaProviderOptions>(services => udrugeProviderOptions);
 builder.Services.AddTransient<VoditeljUdrugeProviderOptions>(services => voditeljiUdrugeProviderOptions);
 builder.Services.AddTransient<ClanarinaProviderOptions>(services => clanarinaProviderOptions);
+
+builder.Services.AddTransient<ClanProviderOptions>(services => clanProviderOptions);
 builder.Services.AddTransient<CvrstiObjektZaObitavanjeProviderOptions>(services => cvrstiObjektiZaObitavanjeProviderOptions);
+
 
 // register the required providers
 builder.Services.AddTransient<IAkcijaProvider, AkcijaProvider>();
@@ -79,8 +85,12 @@ builder.Services.AddTransient<IMjestoProvider, MjestoProvider>();
 builder.Services.AddTransient<IMaterijalnaPotrebaProvider, MaterijalnaPotrebaProvider>();
 builder.Services.AddTransient<ISkolaProvider, SkolaProvider>();
 builder.Services.AddTransient<IUdrugeProvider, UdrugeProvider>();
+
+builder.Services.AddTransient<IClanProvider, ClanProvider>();
+
 builder.Services.AddTransient<IVoditeljiUdrugeProvider, VoditeljiUdrugeProvider>();
 builder.Services.AddTransient<ICvrstiObjektZaObitavanjeProvider, CvrstiObjektZaObitavanjeProvider>();
+
 HttpClientHandler clientHandler = new HttpClientHandler();
 clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 builder.Services.AddHttpClient("RangZaslugaOptions", client =>
@@ -94,6 +104,11 @@ builder.Services.AddHttpClient("RangStarostOptions", client =>
 }).ConfigurePrimaryHttpMessageHandler(x => clientHandler);
 
 builder.Services.AddHttpClient("ClanarinaOptions", client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration.GetSection("Clanstvo").GetValue<String>("BaseUrl"));
+}).ConfigurePrimaryHttpMessageHandler(x => clientHandler);
+
+builder.Services.AddHttpClient("ClanOptions", client =>
 {
     client.BaseAddress = new Uri(builder.Configuration.GetSection("Clanstvo").GetValue<String>("BaseUrl"));
 }).ConfigurePrimaryHttpMessageHandler(x => clientHandler);

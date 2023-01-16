@@ -5,6 +5,9 @@ namespace IzvidaciWebApp.Providers;
 
 public interface IClanProvider
 {
-    Result<Clan> Get(int id);
-    Result<IEnumerable<Clan>> GetAll();
+    Task<Result<Clan>> Get(int id);
+    Task<Result<IEnumerable<Clan>>> GetAll();
+    Task<Result> Delete(int id);
+    Task<Result> Create(Clan clan);
+    Task<Result> Edit(int id, Clan clan);
 }

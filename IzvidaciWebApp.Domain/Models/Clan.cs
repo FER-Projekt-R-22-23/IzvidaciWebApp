@@ -13,9 +13,20 @@ public class Clan
     private readonly string? _mjestoMarama;
     private readonly int _udrugaId;
 
+    /*
     private readonly List<DodjelaZasluga> _dodjeleZasluga;
     private readonly List<DodjelaStarost> _dodjeleStarost;
     private readonly List<Clanarina> _clanarine;
+    private int id;
+    private string ime;
+    private string prezime;
+    private DateTime datumRodenja;
+    private byte[]? slika;
+    private string adresa;
+    private bool imaMaramu;
+    private DateTime? datumMarama;
+    private string? mjestoMarama;
+    */
 
     public int Id => _id;
     public string Ime => _ime;
@@ -26,12 +37,13 @@ public class Clan
     public bool ImaMaramu => _imaMaramu;
     public DateTime? DatumMarama => _datumMarama;
     public string? MjestoMarama => _mjestoMarama;
-    public int udrugaId => _udrugaId;
+    //public int udrugaId => _udrugaId;
 
-    public IReadOnlyList<DodjelaStarost> DodjeleStarost => _dodjeleStarost.ToList();
-    public IReadOnlyList<DodjelaZasluga> DodjeleZasluga => _dodjeleZasluga.ToList();
-    public IReadOnlyList<Clanarina> Clanarina => _clanarine.ToList();
+    //public IReadOnlyList<DodjelaStarost> DodjeleStarost => _dodjeleStarost.ToList();
+    //public IReadOnlyList<DodjelaZasluga> DodjeleZasluga => _dodjeleZasluga.ToList();
+    //public IReadOnlyList<Clanarina> Clanarina => _clanarine.ToList();
 
+    /*
     public Clan(int id, string ime, string prezime, DateTime datumRodenja,
                       byte[]? slika, string adresa, bool imaMaramu, DateTime? datumMarama, string? mjestoMarama,
                       int udrugaId,IEnumerable<DodjelaStarost>? rangoviStarost = null,
@@ -51,5 +63,19 @@ public class Clan
         _dodjeleZasluga = rangoviZasluga?.ToList() ?? new List<DodjelaZasluga>();
         _clanarine = clanarine?.ToList() ?? new List<Clanarina>();
         _udrugaId = udrugaId;
+    }
+    */
+
+    public Clan(int id, string ime, string prezime, DateTime datumRodenja, byte[]? slika, string adresa, bool imaMaramu, DateTime? datumMarama, string? mjestoMarama)
+    {
+        _id = id;
+        _ime = ime;
+        _prezime = prezime;
+        _datumRodenja = datumRodenja;
+        _slika = slika;
+        _adresa = adresa;
+        _imaMaramu = imaMaramu;
+        _datumMarama = datumMarama;
+        _mjestoMarama = mjestoMarama;
     }
 }

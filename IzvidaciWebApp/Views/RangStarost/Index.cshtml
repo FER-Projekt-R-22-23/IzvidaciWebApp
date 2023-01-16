@@ -1,4 +1,4 @@
-@Model RangStarostViewModel
+@model IzvidaciWebApp.ViewModels.RangStarostiViewModel
 @{
     ViewData["Title"] = "Rangovi starosti";
 }
@@ -17,17 +17,17 @@
         <tr>
             <td class="text-center">@rang.id</td>
             <td class="text-left">@rang.naziv</td>
-            <td>
-                <form>
-                    <a asp-action="Delete" method="post"
-                       asp-route-id="@rang.id"
-                       class="btn btn-danger" title="Obriši"><i class="fas fa-trash-alt"></i></a>
-                </form>
-            </td> 
             <td> 
                 <form asp-action="Edit" method="get"
                       asp-route-id="@rang.id">
                     <button type="submit" class="btn btn-sm" title="Uredi"><i class="fas fa-edit"></i></button>
+                </form>
+            </td>
+            <td>
+                <form>
+                     <a asp-action="Delete" method="post"
+                        asp-route-id="@rang.id"
+                      class="btn btn-danger" title="Obriši"><i class="fas fa-trash-alt"></i></a>
                 </form>
             </td>
         </tr>
