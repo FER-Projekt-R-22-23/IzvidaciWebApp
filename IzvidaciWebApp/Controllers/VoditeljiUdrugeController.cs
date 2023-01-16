@@ -8,15 +8,15 @@ namespace IzvidaciWebApp.Controllers
 {
     public class VoditeljiUdrugeController : Controller
     {
-        private readonly IVoditeljiUdrugeProvider mjestoProvider;
-        public VoditeljiUdrugeController(IVoditeljiUdrugeProvider mjestoProvider)
+        private readonly IVoditeljiUdrugeProvider voditeljiUdrugeProvider;
+        public VoditeljiUdrugeController(IVoditeljiUdrugeProvider voditeljiUdrugeProvider)
         {
-            this.mjestoProvider = mjestoProvider;
+            this.voditeljiUdrugeProvider = voditeljiUdrugeProvider;
         }
         public async Task<IActionResult> Index()
         {
 
-            var result = await mjestoProvider.GetAll();
+            var result = await voditeljiUdrugeProvider.GetAll();
             VoditeljiUdrugeViewModel akt = new VoditeljiUdrugeViewModel();
             akt.voditeljiUdruge = result.Data.Select(r => {
                 return new VoditeljUdrugeViewModel
@@ -37,13 +37,13 @@ namespace IzvidaciWebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(VoditeljUdrugeViewModel mjesto)
+        public async Task<IActionResult> Create(VoditeljUdrugeViewModel voditeljUdruge)
         {
-            if (mjesto is not null)
+            if (voditeljUdruge is not null)
             {
-                VoditeljiUdruge mj = new VoditeljiUdruge(mjesto.IdUdruge, mjesto.IdClan, mjesto.Pozicija, mjesto.NaPozicijiDo);
+                VoditeljiUdruge vu = new VoditeljiUdruge(voditeljUdruge.IdUdruge, voditeljUdruge.IdClan, voditeljUdruge.Pozicija, voditeljUdruge.NaPozicijiDo);
 
-                var result = await mjestoProvider.Create(mj);
+                var result = await voditeljiUdrugeProvider.Create(vu);
                 if (!result.IsSuccess)
                 {
                     Console.Out.WriteLine("Neuspjesno!");
@@ -56,7 +56,7 @@ namespace IzvidaciWebApp.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
-            var result = await mjestoProvider.Delete(id);
+            var result = await voditeljiUdrugeProvider.Delete(id);
             if (!result.IsSuccess)
             {
                 Console.WriteLine("Not Succesful!");
@@ -69,21 +69,21 @@ namespace IzvidaciWebApp.Controllers
         public async Task<IActionResult> Edit(int id)
         {
 
-            var mjesto = await mjestoProvider.Get(id);
+            var voditeljUdruge = await voditeljiUdrugeProvider.Get(id);
             var akt = new VoditeljUdrugeViewModel()
             {
                 IdUdruge = id,
-                IdClan = mjesto.Data.IdClan,
-                Pozicija = mjesto.Data.Pozicija,
-                NaPozicijiDo = mjesto.Data.NaPozicijiDo
+                IdClan = voditeljUdruge.Data.IdClan,
+                Pozicija = voditeljUdruge.Data.Pozicija,
+                NaPozicijiDo = voditeljUdruge.Data.NaPozicijiDo
             };
             return View(akt);
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(VoditeljUdrugeViewModel mjesto)
+        public async Task<IActionResult> Edit(VoditeljUdrugeViewModel voditeljUdruge)
         {
-            VoditeljiUdruge akt = new VoditeljiUdruge(mjesto.IdUdruge, mjesto.IdClan, mjesto.Pozicija, mjesto.NaPozicijiDo);
-            var result = await mjestoProvider.Edit(mjesto.IdClan, akt);
+            VoditeljiUdruge akt = new VoditeljiUdruge(voditeljUdruge.IdUdruge, voditeljUdruge.IdClan, voditeljUdruge.Pozicija, voditeljUdruge.NaPozicijiDo);
+            var result = await voditeljiUdrugeProvider.Edit(voditeljUdruge.IdClan, akt);
             if (!result.IsSuccess)
             {
                 return RedirectToAction(nameof(Index));
