@@ -112,7 +112,7 @@ namespace IzvidaciWebApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditSkola(int id)
+        /*public async Task<IActionResult> EditSkola(int id)
         {
             var skola = await _aktivnostProvider.Get(id);
             var akt = new AktivnostViewModel()
@@ -125,7 +125,7 @@ namespace IzvidaciWebApp.Controllers
 
             };
             return View(akt);
-        }
+        }*/
 
         [HttpGet]
         public IActionResult Create()

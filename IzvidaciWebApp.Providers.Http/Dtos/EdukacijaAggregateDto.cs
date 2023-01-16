@@ -1,19 +1,19 @@
 ﻿using IzvidaciWebApp.Domain.Models;
 using IzvidaciWebApp.Providers.Http.Dtos;
-    using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace IzvidaciWebApp.Providers.Http.Dtos;
-    public class EdukacijaAggregateDto
-    {
-        public int IdEdukacija { get; set; }
-        public string NazivEdukacija { get; set; } = string.Empty;
-        public int MjestoPbr { get; set; }
-        public string OpisEdukacije { get; set; } = String.Empty;
-        public int SkolaId { get; set; }
-        public IEnumerable<PredavacNaEdukacijiDto> PredavaciNaEdukaciji { get; set; } = Enumerable.Empty<PredavacNaEdukacijiDto>();
-        public IEnumerable<PolaznikNaEdukacijiDto> PolazniciEdukacije { get; set; } = Enumerable.Empty<PolaznikNaEdukacijiDto>();
-        public IEnumerable<PrijavljenClanNaEdukacijuDto> PrijavljeniNaEdukaciju { get; set; } = Enumerable.Empty<PrijavljenClanNaEdukacijuDto>();
-    }
+public class EdukacijaAggregateDto
+{
+    public int IdEdukacija { get; set; }
+    public string NazivEdukacija { get; set; } = string.Empty;
+    public int MjestoPbr { get; set; }
+    public string OpisEdukacije { get; set; } = String.Empty;
+    public int SkolaId { get; set; }
+    public IEnumerable<PredavacNaEdukacijiDto> PredavaciNaEdukaciji { get; set; } = Enumerable.Empty<PredavacNaEdukacijiDto>();
+    public IEnumerable<PolaznikNaEdukacijiDto> PolazniciEdukacije { get; set; } = Enumerable.Empty<PolaznikNaEdukacijiDto>();
+    public IEnumerable<PrijavljenClanNaEdukacijuDto> PrijavljeniNaEdukaciju { get; set; } = Enumerable.Empty<PrijavljenClanNaEdukacijuDto>();
+}
 
 public static partial class DtoMapping
 {
@@ -35,5 +35,6 @@ public static partial class DtoMapping
     {
         return new Edukacija(edukacija.IdEdukacija, edukacija.NazivEdukacija, edukacija.MjestoPbr, edukacija.OpisEdukacije, edukacija.SkolaId, edukacija.PredavaciNaEdukaciji.Select(ToDomain), edukacija.PolazniciEdukacije.Select(ToDomain), edukacija.PrijavljeniNaEdukaciju.Select(ToDomain));
     }
+
 
 }

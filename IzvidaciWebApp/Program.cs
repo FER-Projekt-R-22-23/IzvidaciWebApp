@@ -37,6 +37,10 @@ var rangZaslugaOptions =
 var rangStarostOptions =
     configuration.GetSection("RangStarostOptions")
         .Get<RangStarostProviderOptions>();
+
+var udrugeProviderOptions =
+    configuration.GetSection("UdrugeOptions")
+    .Get<UdrugaProviderOptions>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -46,6 +50,7 @@ builder.Services.AddTransient<RangZaslugaProviderOptions>(services => rangZaslug
 builder.Services.AddTransient<RangStarostProviderOptions>(services => rangStarostOptions);
 builder.Services.AddTransient<MjestoProviderOptions>(services => mjestoProviderOptions);
 builder.Services.AddTransient<MaterijalnaPotrebaProviderOptions>(services => materijalnePotrebeProviderOptions);
+builder.Services.AddTransient<UdrugaProviderOptions>(services => udrugeProviderOptions);
 
 // register the required providers
 builder.Services.AddTransient<IAkcijaProvider, AkcijaProvider>();
@@ -55,6 +60,7 @@ builder.Services.AddTransient<IAktivnostProvider, AktivnostiProvider>();
 builder.Services.AddTransient<IMjestoProvider, MjestoProvider>();
 builder.Services.AddTransient<IMaterijalnaPotrebaProvider, MaterijalnaPotrebaProvider>();
 builder.Services.AddTransient<ISkolaProvider, SkolaProvider>();
+builder.Services.AddTransient<IUdrugeProvider, UdrugeProvider>();
 HttpClientHandler clientHandler = new HttpClientHandler();
 clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 builder.Services.AddHttpClient("RangZaslugaOptions", client =>
@@ -77,6 +83,11 @@ builder.Services.AddHttpClient("MjestoOptions", client =>
 builder.Services.AddHttpClient("MaterijalnaPotrebaOptions", client =>
 {
     client.BaseAddress = new Uri(builder.Configuration.GetSection("MaterijalnePotrebe").GetValue<String>("BaseUrl"));
+}).ConfigurePrimaryHttpMessageHandler(x => clientHandler);
+
+builder.Services.AddHttpClient("UdrugeOptions", client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration.GetSection("Udruge").GetValue<String>("BaseUrl"));
 }).ConfigurePrimaryHttpMessageHandler(x => clientHandler);
 System.Net.ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
 var app = builder.Build();
