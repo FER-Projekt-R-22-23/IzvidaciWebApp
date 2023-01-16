@@ -13,6 +13,7 @@ public class Clan
     private readonly string? _mjestoMarama;
     private readonly int _udrugaId;
 
+    /*
     private readonly List<DodjelaZasluga> _dodjeleZasluga;
     private readonly List<DodjelaStarost> _dodjeleStarost;
     private readonly List<Clanarina> _clanarine;
@@ -25,6 +26,7 @@ public class Clan
     private bool imaMaramu;
     private DateTime? datumMarama;
     private string? mjestoMarama;
+    */
 
     public int Id => _id;
     public string Ime => _ime;
@@ -35,12 +37,13 @@ public class Clan
     public bool ImaMaramu => _imaMaramu;
     public DateTime? DatumMarama => _datumMarama;
     public string? MjestoMarama => _mjestoMarama;
-    public int udrugaId => _udrugaId;
+    //public int udrugaId => _udrugaId;
 
-    public IReadOnlyList<DodjelaStarost> DodjeleStarost => _dodjeleStarost.ToList();
-    public IReadOnlyList<DodjelaZasluga> DodjeleZasluga => _dodjeleZasluga.ToList();
-    public IReadOnlyList<Clanarina> Clanarina => _clanarine.ToList();
+    //public IReadOnlyList<DodjelaStarost> DodjeleStarost => _dodjeleStarost.ToList();
+    //public IReadOnlyList<DodjelaZasluga> DodjeleZasluga => _dodjeleZasluga.ToList();
+    //public IReadOnlyList<Clanarina> Clanarina => _clanarine.ToList();
 
+    /*
     public Clan(int id, string ime, string prezime, DateTime datumRodenja,
                       byte[]? slika, string adresa, bool imaMaramu, DateTime? datumMarama, string? mjestoMarama,
                       int udrugaId,IEnumerable<DodjelaStarost>? rangoviStarost = null,
@@ -61,17 +64,18 @@ public class Clan
         _clanarine = clanarine?.ToList() ?? new List<Clanarina>();
         _udrugaId = udrugaId;
     }
+    */
 
     public Clan(int id, string ime, string prezime, DateTime datumRodenja, byte[]? slika, string adresa, bool imaMaramu, DateTime? datumMarama, string? mjestoMarama)
     {
-        this.id = id;
-        this.ime = ime;
-        this.prezime = prezime;
-        this.datumRodenja = datumRodenja;
-        this.slika = slika;
-        this.adresa = adresa;
-        this.imaMaramu = imaMaramu;
-        this.datumMarama = datumMarama;
-        this.mjestoMarama = mjestoMarama;
+        _id = id;
+        _ime = ime;
+        _prezime = prezime;
+        _datumRodenja = datumRodenja;
+        _slika = slika;
+        _adresa = adresa;
+        _imaMaramu = imaMaramu;
+        _datumMarama = datumMarama;
+        _mjestoMarama = mjestoMarama;
     }
 }
