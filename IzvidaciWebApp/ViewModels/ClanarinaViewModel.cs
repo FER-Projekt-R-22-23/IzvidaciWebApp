@@ -11,8 +11,8 @@ public class ClanarinaViewModel
     public int Godina { get; set; }
 
     public int ClanId { get; set; }
-   // public string ClanIme { get; set; }
-   // public string ClanPrezime { get; set; }
+    public string ClanIme { get; set; }
+    public string ClanPrezime { get; set; }
     public DateTime? Datum { get; set; }
     //public virtual Clan Clan { get; set; }
 }
