@@ -17,16 +17,6 @@
         {
             <tr>
                 <td class="text-left">@polaznik.IdClan</td>
-                <td class="btn-group-spacing">
-
-                    <a class="btn btn-sm"
-                   style="background-color:Crimson ;"
-                   hx-confirm="Obrisati cjenik?"
-                   hx-delete="@Url.Action(nameof(SkoleController.Index), new { id = polaznik.IdClan })"
-                   title="Obriši">
-                        <i class="fas fa-trash-alt whiteicon"></i>
-                    </a>
-                </td>
             </tr>
         }
     </tbody>
