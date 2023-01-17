@@ -1,9 +1,12 @@
 using System.Net;
+using FluentValidation;
 using IzvidaciWebApp.Providers;
 using IzvidaciWebApp.Providers.Http;
 using IzvidaciWebApp.Providers.Http.Options;
 using IzvidaciWebApp.ViewModels;
 using IzvidaciWebApp.Domain.Models;
+using FluentValidation.AspNetCore;
+using IzvidaciWebApp.ModelsValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +21,11 @@ else
 {
     configuration = builder.Configuration.AddJsonFile("appsettings.json").Build();
 }
+
+builder.Services
+    .AddFluentValidationAutoValidation()
+    .AddFluentValidationClientsideAdapters()
+    .AddValidatorsFromAssemblyContaining<RangZaslugaValidator>();
 
 // load the options from the appsettings file for AkcijaProvider
 var akcijaProviderOptions =

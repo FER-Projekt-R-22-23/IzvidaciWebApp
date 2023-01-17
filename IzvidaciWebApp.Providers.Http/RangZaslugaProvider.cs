@@ -40,16 +40,16 @@ public class RangZaslugaProvider : IRangZaslugaProvider
         if (rangDto is not null)
         {
             var rang = rangDto.Select(r => DtoMapping.ToDomain(r));
-            return Results.OnSuccess<IEnumerable<RangZasluga>>(rang);
+            return Results.OnSuccess(rang);
         }
-        return Results.OnFailure<IEnumerable<RangZasluga>>("Rangovi ne postoji");
+        return Results.OnFailure<IEnumerable<RangZasluga>>("Rangovi ne postoje");
     }
 
     public async Task<Result> Delete(int id)
     {
         String str = "api/RangZasluga/"+id + "";
-        var response = _httpClient.DeleteAsync(str).IsCompletedSuccessfully;
-        if (!response)
+        var response = _httpClient.DeleteAsync(str);
+        if (!response.Result.IsSuccessStatusCode)
         {
             return Results.OnFailure("Neuspjesno");
         }
@@ -63,12 +63,12 @@ public class RangZaslugaProvider : IRangZaslugaProvider
         var json = JsonConvert.SerializeObject(rangZasluga);
         var data = new StringContent(json,Encoding.UTF8,"application/json");
         var response = await _httpClient.PostAsync(str, data);
-        if (!(response.StatusCode == HttpStatusCode.Accepted))
+        if (response.StatusCode == HttpStatusCode.BadRequest)
         {
-            return Results.OnFailure("Neuspjesno");
+            return Results.OnFailure("Greska pri dodavanju!");
         }
 
-        return Results.OnSuccess("Uspjesno obrisano");
+        return Results.OnSuccess("Uspjesno dodano!");
     }
 
     public async Task<Result> Edit(int id,RangZasluga rangZasluga)
@@ -76,11 +76,11 @@ public class RangZaslugaProvider : IRangZaslugaProvider
         String str = "api/RangZasluga/"+id;
         var json = JsonConvert.SerializeObject(rangZasluga);
         var data = new StringContent(json,Encoding.UTF8,"application/json");
-        var response = _httpClient.PutAsync(str,data);
-        if (!response.IsCompleted)
+        var response = await _httpClient.PutAsync(str,data);
+        if (response.StatusCode == HttpStatusCode.BadRequest)
         {
-            return Results.OnFailure("Neuspjesno");
+            return Results.OnFailure("Neuspjesno uredivanje ranga po zasluzi");
         }
-        return Results.OnSuccess("Uspjesno");
+        return Results.OnSuccess("Uspjesno uredivanje ranga po zasluzi");
     }
 }
