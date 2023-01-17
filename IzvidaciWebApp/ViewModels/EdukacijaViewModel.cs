@@ -6,5 +6,6 @@
         public string NazivEdukacije { get; set; } = String.Empty;
         public int MjestoPbr { get; set; }
         public string Opis { get; set; }
+        public int IdSkole { get; set; }
     }
 }

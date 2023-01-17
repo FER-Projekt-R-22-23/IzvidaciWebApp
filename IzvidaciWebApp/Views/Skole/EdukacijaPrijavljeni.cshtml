@@ -7,9 +7,9 @@
 
 <h1>Prijavljeni na edukaciju</h1>
 <form asp-route-idEdukacije="@Model.IdEdukacije" asp-action="PrijaviPolaznika" method="post">
+        <select class="form-select" name="idClan" asp-items="@ViewBag.Clanovi">
+        </select>
     <div class="form-group">
-        <label for="idClan">Id clana</label>
-        <input type="text" id="idClan" name="idClan">
         <button class="btn btn-primary" type="submit">Prijavi</button>
     </div>
 </form>
@@ -17,6 +17,8 @@
     <thead>
         <tr>
             <th>Id clan</th>
+            <th>Ime</th>
+            <th>Prezime</th>
             <th>Datum prijave</th>
         </tr>
     </thead>
@@ -25,11 +27,13 @@
         {
             <tr>
                 <td class="text-left">@prijavljen.IdClan</td>
+                <td class="text-left">@prijavljen.Ime</td>
+                <td class="text-left">@prijavljen.Prezime</td>
                 <td class="text-left">@prijavljen.Datum.ToString("dd/MM/yyyy")</td>
                 <td style="width: auto;">
-                    <div style="display: flex; margine-right: 0px;">
-                        <form style="flex: 1;" asp-action="DolaziNaEdukaciju" method="post" asp-route-idEdukacije="@Model.IdEdukacije" asp-route-idClan="@prijavljen.IdClan">
-                            <button style="margine-right: 0px;" type="submit" class="btn btn-outline-dark">
+                    <div style="display: flex; margin-right: 0px;">
+                        <form style="flex: 1;" asp-action="OdjaviPolaznika" method="post" asp-route-idEdukacije="@Model.IdEdukacije" asp-route-idClan="@prijavljen.IdClan">
+                            <button style="margin-right: 0px;" type="submit" class="btn btn-outline-dark">
                             Odjavi
                         </button>
                     </form>

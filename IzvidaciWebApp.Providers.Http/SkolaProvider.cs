@@ -97,6 +97,32 @@ public class SkolaProvider : ISkolaProvider
         return Results.OnFailure<Skola>("Skola ne postoji");
     }
 
+    public async Task<Result<Edukacija>> GetEdukacijaBasic(int id)
+    {
+        var result = await _httpClient.GetFromJsonAsync<EdukacijaDto>($"/api/Edukacija/{id}");
+
+        if (result is not null)
+        {
+            var edukacijaDomain = DtoMapping.toDomain(result);
+            return Results.OnSuccess<Edukacija>(edukacijaDomain);
+        }
+        return Results.OnFailure<Edukacija>("Edukacija ne postoji");
+    }
+
+    public async Task<Result> EditEdukacija(Edukacija edukacija)
+    {
+        String str = $"api/Edukacija/{edukacija.Id}";
+        var json = JsonConvert.SerializeObject(edukacija.ToDto());
+        var data = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = _httpClient.PutAsync(str, data);
+        if (!response.IsCompletedSuccessfully)
+        {
+            Console.WriteLine("Greska");
+            return Results.OnFailure("Neuspjesno");
+        }
+        return Results.OnSuccess("Uspjesno");
+    }
+
     public async Task<Result> DeleteSkola(int id)
     {
         String str = $"api/Skole/{id}";
@@ -157,6 +183,42 @@ public class SkolaProvider : ISkolaProvider
         String str = $"/api/Edukacija/DodajPredavaca/{id}";
         var json = JsonConvert.SerializeObject(predavac.ToDto());
         var data = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = _httpClient.PostAsync(str, data);
+        if (!response.IsCompletedSuccessfully)
+        {
+            return Results.OnFailure("Neuspjesno");
+        }
+        return Results.OnSuccess("Uspjesno");
+    }
+
+    public async Task<Result> OdjaviClana(int idEdukacija, int idClan )
+    {
+        String str = $"/api/Edukacija/OdjaviPolaznika/{idEdukacija}?polaznikId={idClan}";
+        var data = new StringContent("", Encoding.UTF8, "application/json");
+        var response = _httpClient.PostAsync(str, data);
+        if (!response.IsCompletedSuccessfully)
+        {
+            return Results.OnFailure("Neuspjesno");
+        }
+        return Results.OnSuccess("Uspjesno");
+    }
+
+    public async Task<Result> DeleteEdukacija(int id)
+    {
+        String str = $"api/Edukacija/{id}";
+        var response = _httpClient.DeleteAsync(str);
+        if (!response.IsCompletedSuccessfully)
+        {
+            return Results.OnFailure("Neuspjesno");
+        }
+
+        return Results.OnSuccess("Uspjesno obrisano");
+    }
+
+    public async Task<Result> OdjaviPredavaca(int idEdukacija, int idClan)
+    {
+        String str = $"/api/Edukacija/UkloniPredavaca/{idEdukacija}?predavacId={idClan}";
+        var data = new StringContent("", Encoding.UTF8, "application/json");
         var response = _httpClient.PostAsync(str, data);
         if (!response.IsCompletedSuccessfully)
         {

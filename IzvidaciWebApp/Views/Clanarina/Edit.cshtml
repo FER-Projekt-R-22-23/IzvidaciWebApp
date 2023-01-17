@@ -23,9 +23,9 @@
         <input asp-for="Godina" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="ClanId"></label>
-        <div><span asp-validation-for="ClanId" class="text-danger"></span></div>
-        <input asp-for="ClanId" class="form-control" />
+        <label asp-for="ClanId">Član</label>
+        <select class="form-select" asp-for="ClanId" asp-items="ViewBag.Clanovi">
+        </select>
     </div>
     <div class="form-group">
         <label asp-for="Datum"></label>
