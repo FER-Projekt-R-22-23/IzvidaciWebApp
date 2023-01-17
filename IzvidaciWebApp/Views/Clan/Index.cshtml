@@ -68,7 +68,7 @@
                 <!--<td class="text-center">@clan.Slika</td>-->
 
                 <td class="text-center">@clan.Adresa</td>
-                <td class="text-center">@clan.ImaMaramu</td>
+                    <td class="text-middle"><input type="checkbox" @(clan.ImaMaramu ? "checked" : "") disabled />
                 <td class="text-center">@clan.DatumMarama?.ToString("dd.MM.yyyy.")</td>
                 <td class="text-center">@clan.MjestoMarama</td>
                 <td>
