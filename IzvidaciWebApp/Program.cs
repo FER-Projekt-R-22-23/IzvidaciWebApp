@@ -4,6 +4,9 @@ using IzvidaciWebApp.Providers.Http;
 using IzvidaciWebApp.Providers.Http.Options;
 using IzvidaciWebApp.ViewModels;
 using IzvidaciWebApp.Domain.Models;
+using FluentValidation.AspNetCore;
+using IzvidaciWebApp.ModelsValidation;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -60,6 +63,12 @@ var cvrstiObjektiZaObitavanjeProviderOptions =
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+//validacija
+builder.Services
+          .AddFluentValidationAutoValidation()
+          .AddFluentValidationClientsideAdapters()
+          .AddValidatorsFromAssemblyContaining<SkolaViewModelValidator>();
 
 // register the required options
 builder.Services.AddTransient<AkcijaProviderOptions>(services => akcijaProviderOptions);

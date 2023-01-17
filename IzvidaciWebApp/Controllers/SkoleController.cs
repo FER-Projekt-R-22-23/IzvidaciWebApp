@@ -124,6 +124,7 @@ namespace IzvidaciWebApp.Controllers
         public async Task<IActionResult> EditSkola(int id)
         {
             var skola  = await _skolaProvider.GetSkola(id);
+            await PrepareDropDownLists();
             var skolaViewModel = new SkolaViewModel
             {
                 Id = skola.Data.IdSkole,
@@ -145,15 +146,22 @@ namespace IzvidaciWebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateSkola(SkolaViewModel skola)
         {
-            if (skola is not null)
+            if (ModelState.IsValid)
             {
-                Skola skolaDomain = new Skola(skola.Id, skola.NazivSkole, skola.MjestoPbr, skola.Organizator, skola.KontaktOsoba);
-
-                var result = await _skolaProvider.CreateSkola(skolaDomain);
-                if (!result.IsSuccess)
+                try
                 {
-                    Console.Out.WriteLine("Neuspjesno!");
-                    return RedirectToAction(nameof(Index));
+                    Skola skolaDomain = new Skola(skola.Id, skola.NazivSkole, skola.MjestoPbr, skola.Organizator, skola.KontaktOsoba);
+
+                    var result = await _skolaProvider.CreateSkola(skolaDomain);
+                    if (!result.IsSuccess)
+                    {
+                        Console.Out.WriteLine("Neuspjesno!");
+                        return RedirectToAction(nameof(Index));
+                    }
+                }
+                catch (Exception x)
+                {
+                    ModelState.AddModelError("RegistrationError", "Podaci za školu nisu ispravno unešeni"); 
                 }
             }
 
