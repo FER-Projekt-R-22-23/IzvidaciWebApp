@@ -146,7 +146,7 @@ namespace IzvidaciWebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateSkola(SkolaViewModel skola)
         {
-            if (ModelState.IsValid)
+            if (skola != null)
             {
                 try
                 {

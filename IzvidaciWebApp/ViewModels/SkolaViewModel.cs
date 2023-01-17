@@ -5,8 +5,6 @@ namespace IzvidaciWebApp.ViewModels
     public class SkolaViewModel
     {
         public int Id { get; set; }
-        
-        [Required(ErrorMessage = "Naziv škole ne smije biti prazan!")]
         public string NazivSkole { get; set; } = String.Empty;
         public int MjestoPbr { get; set; }
         public String NazivMjesto { get; set; } = string.Empty;

@@ -9,21 +9,26 @@
     <div asp-validation-summary="All"></div>
     <div class="form-group">
         <label asp-for="NazivSkole">Naziv skole</label>
-        <input asp-for="NazivSkole" class="form-control" />
+        <input required asp-for="NazivSkole" class="form-control" />
         <div class="form-text"><span asp-validation-for="NazivSkole" class="text-danger"></span></div>
     </div>
     <div class="form-group">
         <label asp-for="MjestoPbr">Mjesto</label>
-        <select class="form-select" asp-for="MjestoPbr" asp-items="@ViewBag.Mjesta"></select>
+        <select required class="form-select" asp-for="MjestoPbr" asp-items="@ViewBag.Mjesta">
+            <option selected value="" disabled>Odaberite mjesto</option>
+        </select>
     </div>
     <div class="form-group">
         <label asp-for="Organizator">Organizator</label>
-        <select class="form-select" asp-for="Organizator" asp-items="@ViewBag.Clanovi">
+        <select required class="form-select" asp-for="Organizator" asp-items="@ViewBag.Clanovi">
+        <option selected value="" disabled>Odaberite organizatora</option>
         </select>
     </div>
     <div class="form-group">
         <label asp-for="KontaktOsoba">Kontakt osoba</label>
-        <select class="form-select" asp-for="KontaktOsoba" asp-items="@ViewBag.Clanovi"></select>
+        <select required class="form-select" asp-for="KontaktOsoba" asp-items="@ViewBag.Clanovi">
+        <option selected value="" disabled>Odaberite kontakt osobu</option>
+        </select>
     </div>
     <input type="hidden" asp-for="Id" />
     <div class="text-center">
@@ -32,10 +37,3 @@
            class="btn btn-secondary">Odustani</a>
     </div>
 </form>
-
-<script asp-src-include="~/lib/jquery-validate/**/jquery.validate.min.js"></script>
-<script asp-src-include="~/lib/jquery-validation-unobtrusive/**/*.min.js"></script>
-
-
-
-<script src="~/js/validation.js" asp-append-version="true"></script>
