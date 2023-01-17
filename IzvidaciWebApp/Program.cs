@@ -85,12 +85,11 @@ builder.Services.AddTransient<IMjestoProvider, MjestoProvider>();
 builder.Services.AddTransient<IMaterijalnaPotrebaProvider, MaterijalnaPotrebaProvider>();
 builder.Services.AddTransient<ISkolaProvider, SkolaProvider>();
 builder.Services.AddTransient<IUdrugeProvider, UdrugeProvider>();
-
 builder.Services.AddTransient<IClanProvider, ClanProvider>();
 
 builder.Services.AddTransient<IVoditeljiUdrugeProvider, VoditeljiUdrugeProvider>();
 builder.Services.AddTransient<ICvrstiObjektZaObitavanjeProvider, CvrstiObjektZaObitavanjeProvider>();
-
+builder.Services.AddTransient<IResursiProvider, ResursiProvider>();
 HttpClientHandler clientHandler = new HttpClientHandler();
 clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 builder.Services.AddHttpClient("RangZaslugaOptions", client =>
