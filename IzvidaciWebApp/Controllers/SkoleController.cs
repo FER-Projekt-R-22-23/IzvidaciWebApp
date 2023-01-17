@@ -14,11 +14,13 @@ namespace IzvidaciWebApp.Controllers
     {
         private readonly ISkolaProvider _skolaProvider;
         private readonly IClanProvider _clanProvider;
+        private readonly IMjestoProvider _mjestoProvider;
 
-        public SkoleController(ISkolaProvider skoleProvider, IClanProvider clanProvider)
+        public SkoleController(ISkolaProvider skoleProvider, IClanProvider clanProvider, IMjestoProvider mjestoProvider)
         {
             _skolaProvider = skoleProvider;
             _clanProvider = clanProvider;
+            _mjestoProvider = mjestoProvider;
         }
         public async Task<IActionResult> Index()
         {
@@ -29,12 +31,13 @@ namespace IzvidaciWebApp.Controllers
                 Id = r.IdSkole,
                 NazivSkole = r.NazivSkole,
                 MjestoPbr = r.MjestoPbr,
+                NazivMjesto = _mjestoProvider.Get(r.MjestoPbr).Result.Data.NazivMjesta,
                 Organizator = r.Organizator,
                 KontaktOsoba = r.KontaktOsoba,
-                ImeOrganizator = _clanProvider.Get(r.Organizator).Result.Data.Ime,
-                PrezimeOrganizator = _clanProvider.Get(r.Organizator).Result.Data.Prezime,
-                ImeKontakt = _clanProvider.Get(r.KontaktOsoba).Result.Data.Ime,
-                PrezimeKontakt = _clanProvider.Get(r.KontaktOsoba).Result.Data.Prezime,
+                ImeOrganizator = _clanProvider.Get(r.Organizator).Result.IsFailure ? "" : _clanProvider.Get(r.Organizator).Result.Data.Ime,
+                PrezimeOrganizator = _clanProvider.Get(r.Organizator).Result.IsFailure ? "" : _clanProvider.Get(r.Organizator).Result.Data.Prezime,
+                ImeKontakt = _clanProvider.Get(r.KontaktOsoba).Result.IsFailure ? "" : _clanProvider.Get(r.KontaktOsoba).Result.Data.Ime,
+                PrezimeKontakt = _clanProvider.Get(r.KontaktOsoba).Result.IsFailure ? "" : _clanProvider.Get(r.KontaktOsoba).Result.Data.Prezime,
             });
             return View(skoleViewModel);
         }
@@ -99,8 +102,8 @@ namespace IzvidaciWebApp.Controllers
             polazniciViewModel.polaznici = result.Result.Data.PolazniciEdukacije.Select(r => new PolaznikViewModel
             {
                 IdClan = r.idPolaznik,
-                Ime = _clanProvider.Get(r.idPolaznik).Result.HasData ? _clanProvider.Get(r.idPolaznik).Result.Data.Ime : "",
-                Prezime = _clanProvider.Get(r.idPolaznik).Result.HasData ? _clanProvider.Get(r.idPolaznik).Result.Data.Prezime : ""
+                Ime = _clanProvider.Get(r.idPolaznik).Result.IsFailure ? "" : _clanProvider.Get(r.idPolaznik).Result.Data.Ime,
+                Prezime = _clanProvider.Get(r.idPolaznik).IsFaulted ? "" : _clanProvider.Get(r.idPolaznik).Result.Data.Prezime
 
             });
             return View(polazniciViewModel);
@@ -133,8 +136,9 @@ namespace IzvidaciWebApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreateSkola()
+        public async Task<IActionResult> CreateSkola()
         {
+            await PrepareDropDownLists();
             return View();
         }
         
@@ -280,11 +284,11 @@ namespace IzvidaciWebApp.Controllers
 
         private async Task PrepareDropDownLists()
         {
-            Debug.WriteLine("gore");
             var clanovi = _clanProvider.GetAll().Result.Data.Select(d => new { d.Id, Naziv = $"{d.Ime} {d.Prezime}" });
-            Debug.WriteLine("tu");
-            Console.WriteLine(clanovi);
             ViewBag.Clanovi = new SelectList(clanovi, "Id", "Naziv");
+
+            var mjesta = _mjestoProvider.GetAll().Result.Data.Select(d => new { d.PbrMjesta, d.NazivMjesta });
+            ViewBag.Mjesta = new SelectList(mjesta, "PbrMjesta", "NazivMjesta");
         }
 
         public async Task<IActionResult> OdjaviPredavaca(int idEdukacije, int idClan)
