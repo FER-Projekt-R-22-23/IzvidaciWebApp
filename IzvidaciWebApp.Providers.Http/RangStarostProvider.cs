@@ -26,7 +26,7 @@ public class RangStarostProvider : IRangStarostProvider
         if (rangDto is not null)
         {
             var rang = DtoMapping.ToDomain(rangDto);
-            return Results.OnSuccess<RangStarost>(rang);
+            return Results.OnSuccess(rang);
         }
         return Results.OnFailure<RangStarost>("Rang ne postoji");
     }
@@ -38,7 +38,7 @@ public class RangStarostProvider : IRangStarostProvider
         if (rangDto is not null)
         {
             var rang = rangDto.Select(r => DtoMapping.ToDomain(r));
-            return Results.OnSuccess<IEnumerable<RangStarost>>(rang);
+            return Results.OnSuccess(rang);
         }
         return Results.OnFailure<IEnumerable<RangStarost>>("Rangovi ne postoje");
     }
@@ -46,8 +46,8 @@ public class RangStarostProvider : IRangStarostProvider
     public async Task<Result> Delete(int id)
     {
         String str = "api/RangStarost/"+id + "";
-        var response = _httpClient.DeleteAsync(str).IsCompletedSuccessfully;
-        if (!response)
+        var response = _httpClient.DeleteAsync(str);
+        if (!response.Result.IsSuccessStatusCode)
         {
             return Results.OnFailure("Neuspjesno");
         }
@@ -61,12 +61,12 @@ public class RangStarostProvider : IRangStarostProvider
         var json = JsonConvert.SerializeObject(rangStarost);
         var data = new StringContent(json,Encoding.UTF8,"application/json");
         var response = await _httpClient.PostAsync(str, data);
-        if (!(response.StatusCode == HttpStatusCode.Accepted))
+        if (response.StatusCode == HttpStatusCode.BadRequest)
         {
-            return Results.OnFailure("Neuspjesno");
+            return Results.OnFailure("Greska pri dodavanju ranga po starosti!");
         }
 
-        return Results.OnSuccess("Uspjesno obrisano");
+        return Results.OnSuccess("Uspjesno dodano");
     }
 
     public async Task<Result> Edit(int id,RangStarost rangStarost)
@@ -74,11 +74,11 @@ public class RangStarostProvider : IRangStarostProvider
         String str = "api/RangStarost/"+id;
         var json = JsonConvert.SerializeObject(rangStarost);
         var data = new StringContent(json,Encoding.UTF8,"application/json");
-        var response = _httpClient.PutAsync(str,data);
-        if (!response.IsCompleted)
+        var response = await _httpClient.PutAsync(str,data);
+        if (response.StatusCode == HttpStatusCode.BadRequest)
         {
-            return Results.OnFailure("Neuspjesno");
+            return Results.OnFailure("Neuspjesno uredivanje ranga po starosti");
         }
-        return Results.OnSuccess("Uspjesno");
+        return Results.OnSuccess("Uspjesno uredivanje ranga po starosti");
     }
 }

@@ -28,7 +28,7 @@ public class RangZaslugaProvider : IRangZaslugaProvider
         if (rangDto is not null)
         {
             var rang = DtoMapping.ToDomain(rangDto);
-            return Results.OnSuccess<RangZasluga>(rang);
+            return Results.OnSuccess(rang);
         }
         return Results.OnFailure<RangZasluga>("Rang ne postoji");
     }
@@ -65,7 +65,7 @@ public class RangZaslugaProvider : IRangZaslugaProvider
         var response = await _httpClient.PostAsync(str, data);
         if (response.StatusCode == HttpStatusCode.BadRequest)
         {
-            return Results.OnFailure("Greska pri dodavanju!");
+            return Results.OnFailure("Greska pri dodavanju ranga po zasluzi!");
         }
 
         return Results.OnSuccess("Uspjesno dodano!");

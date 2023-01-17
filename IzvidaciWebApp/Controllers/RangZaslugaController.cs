@@ -3,7 +3,6 @@ using IzvidaciWebApp.Providers;
 using IzvidaciWebApp.Extensions.Selectors;
 using IzvidaciWebApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
 
 namespace IzvidaciWebApp.Controllers;
 
@@ -33,7 +32,7 @@ public class RangZaslugaController : Controller
     public async Task<IActionResult> Delete(int id)
     {
         var result = await _rangZaslugaProvider.Delete(id);
-        if (!result.IsFailure)
+        if (result.IsFailure)
         {
             return RedirectToAction(nameof(Index));
         }
@@ -77,6 +76,10 @@ public class RangZaslugaController : Controller
             }
             TempData[Constants.Message] = $"Rang po zasluzi {rangZasluga.Naziv} dodan. Id mjesta = {rangZasluga.Id}";
             TempData[Constants.ErrorOccurred] = false;
+        }        
+        else
+        {
+            return View();
         }
 
         return RedirectToAction(nameof(Index));

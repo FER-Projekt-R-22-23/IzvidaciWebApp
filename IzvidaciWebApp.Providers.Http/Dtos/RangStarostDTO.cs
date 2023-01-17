@@ -18,5 +18,9 @@ public static partial class DtoMapping
 
     public static Domain.Models.RangStarost ToDomain(this RangStarostDTO clan
     )
-        => new Domain.Models.RangStarost(clan.id, clan.naziv);
+        => new Domain.Models.RangStarost
+        {
+            Id = clan.id, 
+            Naziv = clan.naziv 
+        };
 }
