@@ -9,7 +9,8 @@
     <div asp-validation-summary="All"></div>
     <div class="form-group">
         <label asp-for="NazivSkole">Naziv skole</label>
-        <input required asp-for="NazivSkole" class="form-control" />
+        <input required oninvalid="this.setCustomValidity('Naziv škole je obvezan')"
+               oninput="this.setCustomValidity('')" asp-for="NazivSkole" class="form-control" />
         <div class="form-text"><span asp-validation-for="NazivSkole" class="text-danger"></span></div>
     </div>
     <div class="form-group">
