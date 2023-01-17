@@ -24,4 +24,5 @@ public interface ISkolaProvider
     Task<Result> EditEdukacija(Edukacija edukacija);
     Task<Result> OdjaviClana(int idEdukacija, int idClan);
     Task<Result> DeleteEdukacija(int id);
+    Task<Result> OdjaviPredavaca(int idEdukacija, int idClan);
 }

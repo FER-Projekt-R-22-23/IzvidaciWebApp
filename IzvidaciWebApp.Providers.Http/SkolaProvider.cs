@@ -214,4 +214,16 @@ public class SkolaProvider : ISkolaProvider
 
         return Results.OnSuccess("Uspjesno obrisano");
     }
+
+    public async Task<Result> OdjaviPredavaca(int idEdukacija, int idClan)
+    {
+        String str = $"/api/Edukacija/UkloniPredavaca/{idEdukacija}?predavacId={idClan}";
+        var data = new StringContent("", Encoding.UTF8, "application/json");
+        var response = _httpClient.PostAsync(str, data);
+        if (!response.IsCompletedSuccessfully)
+        {
+            return Results.OnFailure("Neuspjesno");
+        }
+        return Results.OnSuccess("Uspjesno");
+    }
 }

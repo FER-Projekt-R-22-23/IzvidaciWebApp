@@ -4,6 +4,7 @@ using IzvidaciWebApp.Providers;
 using IzvidaciWebApp.Providers.Http;
 using IzvidaciWebApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Diagnostics;
 
@@ -12,10 +13,12 @@ namespace IzvidaciWebApp.Controllers
     public class SkoleController : Controller
     {
         private readonly ISkolaProvider _skolaProvider;
+        private readonly IClanProvider _clanProvider;
 
-        public SkoleController(ISkolaProvider skoleProvider)
+        public SkoleController(ISkolaProvider skoleProvider, IClanProvider clanProvider)
         {
             _skolaProvider = skoleProvider;
+            _clanProvider = clanProvider;
         }
         public async Task<IActionResult> Index()
         {
@@ -28,6 +31,10 @@ namespace IzvidaciWebApp.Controllers
                 MjestoPbr = r.MjestoPbr,
                 Organizator = r.Organizator,
                 KontaktOsoba = r.KontaktOsoba,
+                ImeOrganizator = _clanProvider.Get(r.Organizator).Result.Data.Ime,
+                PrezimeOrganizator = _clanProvider.Get(r.Organizator).Result.Data.Prezime,
+                ImeKontakt = _clanProvider.Get(r.KontaktOsoba).Result.Data.Ime,
+                PrezimeKontakt = _clanProvider.Get(r.KontaktOsoba).Result.Data.Prezime,
             });
             return View(skoleViewModel);
         }
@@ -52,13 +59,16 @@ namespace IzvidaciWebApp.Controllers
         public async Task<IActionResult> EdukacijaPredavaci(int idEdukacije)
         {
             var result = _skolaProvider.GetEdukacija(idEdukacije);
+            await PrepareDropDownLists();
             PredavaciViewModel predavaciViewModel = new PredavaciViewModel();
             predavaciViewModel.IdEdukacije = idEdukacije;
             predavaciViewModel.NazivEdukacije = result.Result.Data.NazivEdukacije;
             predavaciViewModel.predavaci = result.Result.Data.PredavaciNaEdukaciji.Select(r => new PredavacViewModel
             {
                 Id = r.idPredavac,
-                IdClan = r.idClan
+                IdClan = r.idClan,
+                Ime = _clanProvider.Get(r.idClan).Result.HasData ? _clanProvider.Get(r.idClan).Result.Data.Ime : "",
+                Prezime = _clanProvider.Get(r.idClan).Result.HasData ? _clanProvider.Get(r.idClan).Result.Data.Prezime : ""
             });
             return View(predavaciViewModel);
         }
@@ -66,13 +76,16 @@ namespace IzvidaciWebApp.Controllers
         public async Task<IActionResult> EdukacijaPrijavljeni(int idEdukacije)
         {
             var result = _skolaProvider.GetEdukacija(idEdukacije);
+            await PrepareDropDownLists();
             PrijavljeniViewModel prijavljeniViewModel = new PrijavljeniViewModel();
             prijavljeniViewModel.IdEdukacije = idEdukacije;
             prijavljeniViewModel.NazivEdukacije = result.Result.Data.NazivEdukacije;
             prijavljeniViewModel.prijavljeni = result.Result.Data.PrijavljeniNaEdukaciji.Select(r => new PrijavljenViewModel
             {
                 IdClan = r.idPolaznik,
-                Datum = r.datumPrijave
+                Datum = r.datumPrijave,
+                Ime = _clanProvider.Get(r.idPolaznik).Result.HasData ? _clanProvider.Get(r.idPolaznik).Result.Data.Ime : "",
+                Prezime = _clanProvider.Get(r.idPolaznik).Result.HasData ? _clanProvider.Get(r.idPolaznik).Result.Data.Prezime : ""
             });
             return View(prijavljeniViewModel);
         }
@@ -86,6 +99,9 @@ namespace IzvidaciWebApp.Controllers
             polazniciViewModel.polaznici = result.Result.Data.PolazniciEdukacije.Select(r => new PolaznikViewModel
             {
                 IdClan = r.idPolaznik,
+                Ime = _clanProvider.Get(r.idPolaznik).Result.HasData ? _clanProvider.Get(r.idPolaznik).Result.Data.Ime : "",
+                Prezime = _clanProvider.Get(r.idPolaznik).Result.HasData ? _clanProvider.Get(r.idPolaznik).Result.Data.Prezime : ""
+
             });
             return View(polazniciViewModel);
         }
@@ -260,6 +276,25 @@ namespace IzvidaciWebApp.Controllers
                 return RedirectToAction(nameof(SkolaEdukacije), new { idSkole = idSkole });
             }
             return RedirectToAction(nameof(SkolaEdukacije), new { idSkole = idSkole });
+        }
+
+        private async Task PrepareDropDownLists()
+        {
+            Debug.WriteLine("gore");
+            var clanovi = _clanProvider.GetAll().Result.Data.Select(d => new { d.Id, Naziv = $"{d.Ime} {d.Prezime}" });
+            Debug.WriteLine("tu");
+            Console.WriteLine(clanovi);
+            ViewBag.Clanovi = new SelectList(clanovi, "Id", "Naziv");
+        }
+
+        public async Task<IActionResult> OdjaviPredavaca(int idEdukacije, int idClan)
+        {
+            var result = await _skolaProvider.OdjaviPredavaca(idEdukacije, idClan);
+            if (!result.IsSuccess)
+            {
+                return RedirectToAction(nameof(EdukacijaPredavaci), new { idEdukacije = idEdukacije });
+            }
+            return RedirectToAction(nameof(EdukacijaPredavaci), new { idEdukacije = idEdukacije });
         }
     }
 }

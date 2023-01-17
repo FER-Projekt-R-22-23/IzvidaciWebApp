@@ -7,5 +7,9 @@
         public int MjestoPbr { get; set; }
         public int Organizator { get; set; }
         public int KontaktOsoba { get; set; }
+        public String ImeOrganizator { get; set; } = string.Empty;
+        public String PrezimeOrganizator { get; set; } = string.Empty;
+        public String ImeKontakt { get; set; } = string.Empty;
+        public String PrezimeKontakt { get; set; } = string.Empty;
     }
 }

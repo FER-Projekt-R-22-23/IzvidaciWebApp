@@ -8,8 +8,8 @@
 <h1>Predavaci na edukaciji</h1>
 <form asp-route-idEdukacije="@Model.IdEdukacije" asp-action="PrijaviPredavaca" method="post">
     <div class="form-group">
-        <label for="idClan">Id clana</label>
-        <input type="text" id="idClan" name="idClan">
+        <select class="form-select" name="idClan" asp-items="@ViewBag.Clanovi">
+        </select>
         <button class="btn btn-primary" type="submit">Dodaj predavaca</button>
     </div>
 </form>
@@ -18,6 +18,8 @@
         <tr>
             <th>Id predavac</th>
             <th>Id clan</th>
+            <th>Ime</th>
+            <th>Prezime</th>
         </tr>
     </thead>
     <tbody>
@@ -26,15 +28,15 @@
             <tr>
                 <td class="text-left">@predavac.Id</td>
                 <td class="text-left">@predavac.IdClan</td>
+                <td class="text-left">@predavac.Ime</td>
+                <td class="text-left">@predavac.Prezime</td>
                 <td class="btn-group-spacing">
 
-                    <a class="btn btn-sm"
-                        style="background-color:Crimson ;"
-                        hx-confirm="Obrisati cjenik?"
-                        hx-delete="@Url.Action(nameof(SkoleController.Index), new { id = predavac.Id })"
-                        title="Obriši">
-                        <i class="fas fa-trash-alt whiteicon"></i>
-                    </a>
+                    <form style="flex: 1;" asp-action="OdjaviPredavaca" method="post" asp-route-idEdukacije="@Model.IdEdukacije" asp-route-idClan="@predavac.Id">
+                        <button style="margin-right: 0px;" type="submit" class="btn btn-outline-dark">
+                            Ukloni
+                        </button>
+                    </form>
                 </td>
             </tr>
         }
