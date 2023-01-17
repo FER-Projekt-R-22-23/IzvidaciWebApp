@@ -3,15 +3,16 @@
     ViewData["Title"] = "Clanarine";
 }
 <h1>Članarine</h1>
-<a class="nav-link text-dark" asp-area="" asp-controller="Clanarina" asp-action="Create">Stvori novu članarinu</a>
+<a class="btn btn-primary" asp-action="Create" asp-controller="Clanarina">Dodaj novu članarinu</a>
 <table class="table table-sm table-striped table-hover">
     <thead>
         <tr>
             <th>Id</th>
-            <th>Plaćenost</th>
-            <th>Iznos</th>
+            <th>Ime</th>
+            <th>Prezime</th>
             <th>Godina</th>
-            <th>ClanId</th>
+            <th>Iznos</th>
+            <th>Plaćenost</th>
             <th>Datum</th>
         </tr>
     </thead>
@@ -20,13 +21,13 @@
         {
             <tr>
                 <td class="text-left">@clanarina.Id</td>
-                <td class="text-left">@clanarina.Placenost</td>
-                <td class="text-left">@clanarina.Iznos</td>
+                <td class="text-left">@clanarina.ClanIme</td>
+                <td class="text-left">@clanarina.ClanPrezime</td>
                 <td class="text-left">@clanarina.Godina</td>
-                <td class="text-left">@clanarina.ClanId</td>
-               @*<td class="text-center">@clanarina.ClanIme</td>*@
-               @*<td class="text-center">@clanarina.ClanPrezime</td>*@
-                <td class="text-left">@clanarina.Datum</td>
+                <td class="text-left">@clanarina.Iznos</td>
+                <td class="text-middle"><input type="checkbox" @(clanarina.Placenost ? "checked" : "") disabled />
+                @*<td class="text-left">@clanarina.ClanId</td>*@
+                <td class="text-left">@clanarina.Datum?.ToString("dd.MM.yyyy.")</td>
                 <td>
                     <form asp-action="Edit" method="get"
                       asp-route-id="@clanarina.Id">
