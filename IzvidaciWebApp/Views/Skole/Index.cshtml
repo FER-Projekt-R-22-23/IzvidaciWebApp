@@ -34,7 +34,7 @@
 
                     <a class="btn btn-sm"
                         style="background-color:Crimson ;"
-                        hx-confirm="Obrisati skolu?"
+                        onclick="return confirm('Jeste li sigurni da zelite izbrisati skolu?')"
                         asp-action="DeleteSkola" asp-route-id="@skola.Id"
                         title="Obriši">
                         <i class="fas fa-trash-alt whiteicon"></i>
