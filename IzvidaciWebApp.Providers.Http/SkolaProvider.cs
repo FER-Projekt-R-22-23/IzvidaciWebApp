@@ -74,12 +74,92 @@ public class SkolaProvider : ISkolaProvider
     public async Task<Result> EditSkola(Skola skola)
     {
         String str = $"api/Skole/{skola.IdSkole}";
-        var json = JsonConvert.SerializeObject(skola);
+        var json = JsonConvert.SerializeObject(skola.ToDto());
         var data = new StringContent(json, Encoding.UTF8, "application/json");
         var response = _httpClient.PutAsync(str, data);
-        if (!response.IsCompleted)
+        if (!response.IsCompletedSuccessfully)
         {
             Console.WriteLine("Greska");
+            return Results.OnFailure("Neuspjesno");
+        }
+        return Results.OnSuccess("Uspjesno");
+    }
+
+    public async Task<Result<Skola>> GetSkola(int id)
+    {
+        var result = await _httpClient.GetFromJsonAsync<SkolaDto>($"/api/Skole/{id}");
+
+        if (result is not null)
+        {
+            var skolaDomain = DtoMapping.ToDomain(result);
+            return Results.OnSuccess<Skola>(skolaDomain);
+        }
+        return Results.OnFailure<Skola>("Skola ne postoji");
+    }
+
+    public async Task<Result> DeleteSkola(int id)
+    {
+        String str = $"api/Skole/{id}";
+        var response = _httpClient.DeleteAsync(str);
+        if (!response.IsCompletedSuccessfully)
+        {
+            return Results.OnFailure("Neuspjesno");
+        }
+
+        return Results.OnSuccess("Uspjesno obrisano");
+    }
+
+    public async Task<Result> CreateSkola(Skola skola)
+    {
+        String str = "api/Skole";
+        var json = JsonConvert.SerializeObject(skola.ToDto());
+        var data = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = await _httpClient.PostAsync(str, data);
+        if (!response.IsSuccessStatusCode)
+        {
+            Console.WriteLine("ne ide");
+            return Results.OnFailure("Neuspjesno");
+        }
+
+        return Results.OnSuccess("Uspjesno");
+    }
+
+    public async Task<Result> CreateEdukacija(int idSkola, Edukacija edukacija)
+    {
+        String str = $"api/Skole/DodajEdukaciju/{idSkola}";
+        var json = JsonConvert.SerializeObject(edukacija.ToDto());
+        var data = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = await _httpClient.PostAsync(str, data);
+        if (!response.IsSuccessStatusCode)
+        {
+            Console.WriteLine("ne ide");
+            return Results.OnFailure("Neuspjesno");
+        }
+
+        return Results.OnSuccess("Uspjesno");
+    }
+
+    public async Task<Result> PrijaviPolaznika(int id, PrijavljeniClanNaEdukaciji polaznik)
+    {
+        String str = $"/api/Edukacija/PrijaviPolaznika/{id}";
+        var json = JsonConvert.SerializeObject(polaznik.ToDto());
+        var data = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = _httpClient.PostAsync(str, data);
+        if (!response.IsCompletedSuccessfully)
+        {
+            return Results.OnFailure("Neuspjesno");
+        }
+        return Results.OnSuccess("Uspjesno");
+    }
+
+    public async Task<Result> PrijaviPredavaca(int id, PredavacNaEdukaciji predavac)
+    {
+        String str = $"/api/Edukacija/DodajPredavaca/{id}";
+        var json = JsonConvert.SerializeObject(predavac.ToDto());
+        var data = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = _httpClient.PostAsync(str, data);
+        if (!response.IsCompletedSuccessfully)
+        {
             return Results.OnFailure("Neuspjesno");
         }
         return Results.OnSuccess("Uspjesno");

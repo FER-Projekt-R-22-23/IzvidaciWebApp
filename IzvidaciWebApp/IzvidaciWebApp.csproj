@@ -72,4 +72,13 @@
     <Folder Include="wwwroot\htmx" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="Views\Akcije\Create.cshtml" />
+    <None Include="Views\Akcije\Edit.cshtml" />
+    <None Include="Views\Akcije\Index.cshtml" />
+    <None Include="Views\Aktivnosti\Create.cshtml" />
+    <None Include="Views\Aktivnosti\Edit.cshtml" />
+    <None Include="Views\Aktivnosti\Index.cshtml" />
+  </ItemGroup>
+
 </Project>
