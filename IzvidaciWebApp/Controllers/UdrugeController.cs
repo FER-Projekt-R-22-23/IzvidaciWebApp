@@ -8,15 +8,15 @@ namespace IzvidaciWebApp.Controllers
 {
     public class UdrugeController : Controller
     {
-        private readonly IUdrugeProvider mjestoProvider;
-        public UdrugeController(IUdrugeProvider mjestoProvider)
+        private readonly IUdrugeProvider udrugeProvider;
+        public UdrugeController(IUdrugeProvider udrugeProvider)
         {
-            this.mjestoProvider = mjestoProvider;
+            this.udrugeProvider = udrugeProvider;
         }
         public async Task<IActionResult> Index()
         {
             
-            var result = await mjestoProvider.GetAll();
+            var result = await udrugeProvider.GetAll();
             UdrugeViewModel akt = new UdrugeViewModel();
             akt.udruge = result.Data.Select(r => { 
                 return new UdrugaViewModel
@@ -33,7 +33,7 @@ namespace IzvidaciWebApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             return View();
         }
@@ -45,7 +45,7 @@ namespace IzvidaciWebApp.Controllers
             {
                 Udruge mj = new Udruge(mjesto.IdUdruge, mjesto.OIB, mjesto.Naziv, mjesto.Sjediste, mjesto.BrMob, mjesto.Mail);
 
-                var result = await mjestoProvider.Create(mj);
+                var result = await udrugeProvider.Create(mj);
                 if (!result.IsSuccess)
                 {
                     Console.Out.WriteLine("Neuspjesno!");
@@ -58,7 +58,7 @@ namespace IzvidaciWebApp.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
-            var result = await mjestoProvider.Delete(id);
+            var result = await udrugeProvider.Delete(id);
             if (!result.IsSuccess)
             {
                 Console.WriteLine("Not Succesful!");
@@ -71,7 +71,7 @@ namespace IzvidaciWebApp.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             
-            var mjesto = await mjestoProvider.Get(id);
+            var mjesto = await udrugeProvider.Get(id);
             var akt = new UdrugaViewModel()
             {
                 IdUdruge = id,
@@ -88,7 +88,7 @@ namespace IzvidaciWebApp.Controllers
         public async Task<IActionResult> Edit(UdrugaViewModel mjesto)
         {
             Udruge akt = new Udruge(mjesto.IdUdruge, mjesto.OIB, mjesto.Naziv, mjesto.Sjediste, mjesto.BrMob, mjesto.Mail);
-            var result = await mjestoProvider.Edit(mjesto.IdUdruge, akt);
+            var result = await udrugeProvider.Edit(mjesto.IdUdruge, akt);
             if (!result.IsSuccess)
             {
                 return RedirectToAction(nameof(Index));
