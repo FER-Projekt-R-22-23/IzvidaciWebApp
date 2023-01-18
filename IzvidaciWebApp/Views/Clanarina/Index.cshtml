@@ -11,15 +11,42 @@
 <a class="btn btn-primary" asp-action="Create" asp-controller="Clanarina">Dodaj novu članarinu</a>
 <table class="table table-sm table-striped table-hover">
     <thead>
-        <tr>
-            <th>Id</th>
-            <th>Ime</th>
-            <th>Prezime</th>
-            <th>Godina</th>
-            <th>Iznos</th>
-            <th>Plaćenost</th>
-            <th>Datum</th>
-        </tr>
+            <tr>
+                <th>
+                    <a asp-route-sort=1
+                       asp-route-ascending="@(Model.sort == 1 ? !Model.ascending : true)">
+                        Id
+                    </a>
+                </th>
+                <th>Ime</th>
+                <th>Prezime</th>
+                <th>
+                    <a asp-route-sort=2
+                       asp-route-ascending="@(Model.sort == 1 ? !Model.ascending : true)">
+                        Godina
+                    </a>
+                </th>
+                <th>
+                    <a asp-route-sort=3
+                       asp-route-ascending="@(Model.sort == 1 ? !Model.ascending : true)">
+                        Iznos
+                    </a>
+                </th>
+                <th>
+                    <a asp-route-sort=4
+                       asp-route-ascending="@(Model.sort == 1 ? !Model.ascending : true)">
+                        Placenost
+                    </a>
+                </th>
+                <th>
+                    <a asp-route-sort=5
+                       asp-route-ascending="@(Model.sort == 1 ? !Model.ascending : true)">
+                        Datum
+                    </a>
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
     </thead>
     <tbody>
         @foreach (var clanarina in Model.clanarine)

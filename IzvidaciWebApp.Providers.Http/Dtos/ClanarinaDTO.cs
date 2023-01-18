@@ -1,4 +1,5 @@
 ﻿using IzvidaciWebApp.Domain.Models;
+using System.Security.Claims;
 
 namespace IzvidaciWebApp.Providers.Http.Dtos;
 
@@ -30,12 +31,13 @@ public static partial class DtoMapping
         };
 
     public static Domain.Models.Clanarina ToDomain(this ClanarinaDTO clanarina)
-        => new Domain.Models.Clanarina(
-                clanarina.Id,
-                clanarina.Placenost,
-                clanarina.Iznos,
-                clanarina.Godina,
-                clanarina.ClanId,
-                clanarina.Datum
-            );
+        => new Domain.Models.Clanarina
+        {
+            Id = clanarina.Id,
+            Placenost = clanarina.Placenost,
+            Iznos = clanarina.Iznos,
+            Godina = clanarina.Godina,
+            ClanId = clanarina.ClanId,
+            Datum = clanarina.Datum
+        };
 }
