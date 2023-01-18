@@ -15,17 +15,20 @@
     </div>
     <div class="mb-3">
         <label asp-for="Iznos" class="form-label"></label>
-        <input asp-for="Iznos" class="form-control" />
+        <input asp-for="Iznos" required oninvalid="this.setCustomValidity('Iznos članarine je obvezan')"
+               oninput="this.setCustomValidity('')" class="form-control" />
         <div class="form-text"><span asp-validation-for="Iznos" class="text-danger"></span></div>
     </div>
     <div class="mb-3">
         <label asp-for="Godina" class="form-label"></label>
-        <input asp-for="Godina" class="form-control" />
+        <input asp-for="Godina" required oninvalid="this.setCustomValidity('Godina članarine je obvezna')"
+               oninput="this.setCustomValidity('')" class="form-control" />
         <div class="form-text"><span asp-validation-for="Godina" class="text-danger"></span></div>
     </div>
     <div class="mb-3">
         <label class="form-label">Član</label>
-        <select class="form-control" asp-for="ClanId" asp-items="ViewBag.Clanovi">
+        <select class="form-control" asp-for="ClanId" required oninvalid="this.setCustomValidity('Član je obvezan')"
+                oninput="this.setCustomValidity('')" asp-items="ViewBag.Clanovi">
             <option disabled selected value="">Odaberite člana</option>
         </select>
     </div>

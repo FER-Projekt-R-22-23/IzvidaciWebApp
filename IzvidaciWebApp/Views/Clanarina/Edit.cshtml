@@ -13,17 +13,22 @@
     </div>
     <div class="form-group">
         <label asp-for="Iznos"></label>
-        <div><span asp-validation-for="Iznos" class="text-danger"></span></div>
+        <div><span asp-validation-for="Iznos"  required oninvalid="this.setCustomValidity('Iznos članarine je obvezan')"
+               oninput="this.setCustomValidity('')" class="text-danger"></span></div>
         <input asp-for="Iznos" class="form-control" />
     </div>
     <div class="form-group">
         <label asp-for="Godina"></label>
-        <div><span asp-validation-for="Godina" class="text-danger"></span></div>
+        <div>
+            <span asp-validation-for="Godina" required oninvalid="this.setCustomValidity('Godina članarine je obvezna')"
+                  oninput="this.setCustomValidity('')" class="text-danger"></span>
+        </div>
         <input asp-for="Godina" class="form-control" />
     </div>
     <div class="form-group">
         <label asp-for="ClanId">Član</label>
-        <select class="form-select" asp-for="ClanId" asp-items="ViewBag.Clanovi">
+        <select class="form-select" asp-for="ClanId" required oninvalid="this.setCustomValidity('Član je obvezan')"
+                oninput="this.setCustomValidity('')" asp-items="ViewBag.Clanovi">
         </select>
     </div>
     <div class="form-group">
