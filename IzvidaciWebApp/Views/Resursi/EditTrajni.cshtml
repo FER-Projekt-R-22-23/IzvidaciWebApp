@@ -13,31 +13,31 @@
     </div>
     <div class="mb-3">
         <label asp-for="IdUdruga" class="form-label">Id udruge</label>
-        <input asp-for="IdUdruga" class="form-control" />
+        <input asp-for="IdUdruga" class="form-control" required type="number"/>
         <div class="form-text"><span asp-validation-for="IdUdruga" class="text-danger"></span></div>
     </div>
     <div class="mb-3">
         <label asp-for="IdProstor" class="form-label">Id prostora</label>
-        <input asp-for="IdProstor" class="form-control" />
+        <input asp-for="IdProstor" class="form-control" required type="number"/>
         <div class="form-text"><span asp-validation-for="IdProstor" class="text-danger"></span></div>
     </div>
     <div class="mb-3">
         <label asp-for="Naziv" class="form-label">Naziv resursa</label>
-        <input asp-for="Naziv" class="form-control" />
+        <input asp-for="Naziv" class="form-control" maxlength="50" required/>
         <div class="form-text"><span asp-validation-for="Naziv" class="text-danger"></span></div>
     </div>
     <div class="mb-3">
         <label asp-for="DatumNabaveEdit" class="form-label">Datum nabave</label>
-        <input type="date" asp-for="DatumNabaveEdit" class="form-control" />
+        <input type="date" asp-for="DatumNabaveEdit" class="form-control" required/>
         <div class="form-text"><span asp-validation-for="DatumNabaveEdit" class="text-danger"></span></div>
     </div>
     <div class="mb-3">
-        <label asp-for="InventarniBroj" class="form-label">Rok trajanja</label>
-        <input asp-for="InventarniBroj" class="form-control" />
+        <label asp-for="InventarniBroj" class="form-label">InventarniBroj</label>
+        <input asp-for="InventarniBroj" class="form-control" required maxlength="6" minlength="6" type="number"/>
         <div class="form-text"><span asp-validation-for="InventarniBroj" class="text-danger"></span></div>
     </div>
     <div class="mb-3">
-        <label asp-for="Dostupno" class="form-label">Rok trajanja</label>
+        <label asp-for="Dostupno" class="form-label">Dostupno</label>
         <input asp-for="Dostupno" class="form-control" />
         <div class="form-text"><span asp-validation-for="Dostupno" class="text-danger"></span></div>
     </div>
