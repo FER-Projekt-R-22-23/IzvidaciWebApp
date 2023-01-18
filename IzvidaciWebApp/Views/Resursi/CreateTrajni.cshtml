@@ -38,11 +38,11 @@
         <div>DA</div>
         <div class="form-text"><span asp-validation-for="Dostupno" class="text-danger"></span></div>
     </div>
-        <div class="mb-3">
-            <label asp-for="InventarniBroj" class="form-label">Inventarni broj</label>
-            <input asp-for="InventarniBroj" class="form-control" required maxlength="6" minlength="6" type="number"/>
-            <div class="form-text"><span asp-validation-for="InventarniBroj" class="text-danger"></span></div>
-        </div>
+    <div class="mb-3">
+        <label asp-for="InventarniBroj" class="form-label">Inventarni broj (6 znamenaka)</label>
+        <input asp-for="InventarniBroj" class="form-control" required pattern="[0-9]{6,6}"/>
+        <div class="form-text"><span asp-validation-for="InventarniBroj" class="text-danger"></span></div>
+    </div>
     <div class="mb-3">
         <label asp-for="Napomena" class="form-label">Napomena</label>
         <input asp-for="Napomena" class="form-control" maxlength="100"/>
@@ -53,3 +53,4 @@
         <a asp-action="IndexTrajni" class="btn btn-secondary">Odustani</a>
     </div>
 </form>
+
