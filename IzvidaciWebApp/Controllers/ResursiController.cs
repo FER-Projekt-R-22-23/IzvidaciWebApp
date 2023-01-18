@@ -121,8 +121,8 @@ public class ResursiController : Controller
     {
         if (resurs is not null)
         {
-            Console.WriteLine(resurs.DatumNabave);
-            TrajniResurs res = new TrajniResurs(resurs.IdResurs, resurs.Naziv, resurs.Napomena, DateTime.Parse(resurs.DatumNabave.ToString()), resurs.IdUdruga, "", resurs.IdProstor, "", resurs.InventarniBroj, resurs.Dostupno.Equals("DA"));
+            Console.WriteLine(resurs.DatumNabaveEdit);
+            TrajniResurs res = new TrajniResurs(resurs.IdResurs, resurs.Naziv, resurs.Napomena, resurs.DatumNabaveEdit, resurs.IdUdruga, "", resurs.IdProstor, "", resurs.InventarniBroj, resurs.Dostupno.Equals("DA"));
             var result = await _resursiProvider.CreateTrajni(res);
             if (!result.IsSuccess)
             {
