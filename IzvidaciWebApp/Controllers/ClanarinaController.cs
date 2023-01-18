@@ -1,6 +1,8 @@
 ﻿using IzvidaciWebApp.Domain.Models;
+using IzvidaciWebApp.Extensions.Selectors;
 using IzvidaciWebApp.Providers;
 using IzvidaciWebApp.Providers.Http;
+using IzvidaciWebApp.Providers.Http.Models;
 using IzvidaciWebApp.Providers.Http.Options;
 using IzvidaciWebApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -17,14 +19,17 @@ public class ClanarinaController : Controller
         _clanarineProvider = clanarineProvider;
         _clanProvider = clanProvider;
     }
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(int sort = 1, bool ascending = true)
     {
-        var result = await _clanarineProvider.GetAll();
+        var result = _clanarineProvider.GetAll().Result.Data.AsQueryable();
+        result = result.ApplySort(sort, ascending);
         var clanovi = await _clanProvider.GetAll();
-        var idClana = result.Data.Select(c => c.ClanId);
+        var idClana = result.Select(c => c.ClanId);
 
         ClanarineViewModel cvm = new ClanarineViewModel();
-        cvm.clanarine = result.Data.Select(r => new ClanarinaViewModel()
+        cvm.sort = sort;
+        cvm.ascending = ascending;
+        cvm.clanarine = result.Select(r => new ClanarinaViewModel()
         {
             Id = r.Id,
             Placenost = r.Placenost,
@@ -41,9 +46,8 @@ public class ClanarinaController : Controller
     public async Task<IActionResult> Delete(int id)
     {
         var result = await _clanarineProvider.Delete(id);
-        if (!result.IsSuccess)
+        if (result.IsFailure)
         {
-            Console.WriteLine("Not Succesful!");
             return RedirectToAction(nameof(Index));
         }
         return RedirectToAction(nameof(Index));
@@ -73,11 +77,14 @@ public class ClanarinaController : Controller
             
         };
         await PrepareDropDownList();
-        return View(c);
+        //return View(c);
+        return View(clanarina.Data);
     }
     [HttpPost]
-    public async Task<IActionResult> Edit(ClanarinaViewModel clanarina)
+    public async Task<IActionResult> Edit(Clanarina clanarina)
     {
+        if (clanarina == null) return NotFound("Nema poslanih podataka");
+        /*
         Clanarina c = new Clanarina(
                                 clanarina.Id,
                                 clanarina.Placenost,
@@ -86,10 +93,11 @@ public class ClanarinaController : Controller
                                 clanarina.ClanId,
                                 clanarina.Datum
                             );
-        var result = await _clanarineProvider.Edit(clanarina.Id, c);
-        if (!result.IsSuccess)
+        */
+        var result = await _clanarineProvider.Edit(clanarina.Id, clanarina);
+        if (result.IsFailure)
         {
-            return RedirectToAction(nameof(Index));
+            return View(clanarina);
         }
         return RedirectToAction(nameof(Index));
     }
@@ -102,25 +110,21 @@ public class ClanarinaController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(ClanarinaViewModel clanarina)
+    public async Task<IActionResult> Create(Clanarina clanarina)
     {
         if (clanarina is not null)
         {
-            Clanarina c = new Clanarina(
-                                clanarina.Id,
-                                clanarina.Placenost,
-                                clanarina.Iznos,
-                                clanarina.Godina,
-                                clanarina.ClanId,
-                                clanarina.Datum
-                            );
-
-            var result = await _clanarineProvider.Create(c);
-            if (!result.IsSuccess)
+            var result = await _clanarineProvider.Create(clanarina);
+            if (result.IsFailure)
             {
-                Console.Out.WriteLine("Neuspjesno!");
-                return RedirectToAction(nameof(Index));
+                return View();
             }
+            TempData[Constants.Message] = $"Clanarina {clanarina.Id} dodana.";
+            TempData[Constants.ErrorOccurred] = false;
+        }
+        else
+        {
+            return View();
         }
 
         return RedirectToAction(nameof(Index));

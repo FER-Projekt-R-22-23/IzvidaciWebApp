@@ -1,7 +1,6 @@
 using IzvidaciWebApp.Domain.Models;
 using IzvidaciWebApp.Providers;
-using IzvidaciWebApp.Providers.Http;
-using IzvidaciWebApp.Providers.Http.Options;
+using IzvidaciWebApp.Extensions.Selectors;
 using IzvidaciWebApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,24 +13,27 @@ public class RangZaslugaController : Controller
     {
         _rangZaslugaProvider = rangZaslugaProvider;
     }
-    public async Task<IActionResult> Index()
+    [HttpGet]
+    public async Task<IActionResult> Index(int sort = 1, bool ascending = true)
     {
-        var result = await _rangZaslugaProvider.GetAll();
+        var result = _rangZaslugaProvider.GetAll().Result.Data.AsQueryable();
+        result = result.ApplySort(sort, ascending);
         RangZaslugeViewModel rzv = new RangZaslugeViewModel();
-       rzv.rangovi = result.Data.Select(r => new RangZaslugaViewModel
+        rzv.sort = sort;
+        rzv.ascending = ascending;
+       rzv.rangovi = result.Select(r => new RangZaslugaViewModel
         {
             id = r.Id,
             naziv = r.Naziv
         });
         return View(rzv);
     }
-
+    [HttpPost]
     public async Task<IActionResult> Delete(int id)
     {
         var result = await _rangZaslugaProvider.Delete(id);
-        if (!result.IsSuccess)
+        if (result.IsFailure)
         {
-            Console.WriteLine("Not Succesful!");
             return RedirectToAction(nameof(Index));
         }
         return RedirectToAction(nameof(Index));
@@ -40,23 +42,18 @@ public class RangZaslugaController : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {
-        Console.Write("dsadskda\n");
         var rang = await _rangZaslugaProvider.Get(id);
-        var r = new RangZaslugaViewModel()
-        {
-            id = rang.Data.Id,
-            naziv = rang.Data.Naziv
-        };
+        var r = rang.Data;
         return View(r);
     }
     [HttpPost]
-    public async Task<IActionResult> Edit(RangZaslugaViewModel rangZasluga)
+    public async Task<IActionResult> Edit(RangZasluga rangZasluga)
     {
-        RangZasluga rang = new RangZasluga(rangZasluga.id, rangZasluga.naziv);
-        var result = await _rangZaslugaProvider.Edit(rangZasluga.id,rang);
-        if (!result.IsSuccess)
+        if(rangZasluga == null) return NotFound("Nema poslanih podataka");
+        var result = await _rangZaslugaProvider.Edit(rangZasluga.Id,rangZasluga);
+        if (result.IsFailure)
         {
-            return RedirectToAction(nameof(Index));
+            return View(rangZasluga);
         }
         return RedirectToAction(nameof(Index));
     }
@@ -68,18 +65,21 @@ public class RangZaslugaController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(RangZaslugaViewModel rangZasluga)
+    public async Task<IActionResult> Create(RangZasluga rangZasluga)
     {
         if (rangZasluga is not null)
         {
-            RangZasluga rang = new RangZasluga(rangZasluga.id, rangZasluga.naziv);
-
-            var result = await _rangZaslugaProvider.Create(rang);
-            if (!result.IsSuccess)
+            var result = await _rangZaslugaProvider.Create(rangZasluga);
+            if (result.IsFailure)
             {
-                Console.Out.WriteLine("Neuspjesno!");
-                return RedirectToAction(nameof(Index));
+                return View();
             }
+            TempData[Constants.Message] = $"Rang po zasluzi {rangZasluga.Naziv} dodan. Id mjesta = {rangZasluga.Id}";
+            TempData[Constants.ErrorOccurred] = false;
+        }        
+        else
+        {
+            return View();
         }
 
         return RedirectToAction(nameof(Index));

@@ -1,4 +1,5 @@
 using IzvidaciWebApp.Domain.Models;
+using IzvidaciWebApp.Extensions.Selectors;
 using IzvidaciWebApp.Providers;
 using IzvidaciWebApp.Providers.Http;
 using IzvidaciWebApp.Providers.Http.Options;
@@ -14,11 +15,14 @@ public class RangStarostController : Controller
     {
         _rangStarostProvider = rangStarostProvider;
     }
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(int sort = 1, bool ascending = true)
     {
-        var result = await _rangStarostProvider.GetAll();
+        var result = _rangStarostProvider.GetAll().Result.Data.AsQueryable();
+        result = result.ApplySort(sort, ascending);
         RangStarostiViewModel rzv = new RangStarostiViewModel();
-       rzv.rangovi = result.Data.Select(r => new RangStarostViewModel()
+        rzv.sort = sort;
+        rzv.ascending = ascending;
+       rzv.rangovi = result.Select(r => new RangStarostViewModel()
         {
             id = r.Id,
             naziv = r.Naziv
@@ -29,9 +33,8 @@ public class RangStarostController : Controller
     public async Task<IActionResult> Delete(int id)
     {
         var result = await _rangStarostProvider.Delete(id);
-        if (!result.IsSuccess)
+        if (result.IsFailure)
         {
-            Console.WriteLine("Not Succesful!");
             return RedirectToAction(nameof(Index));
         }
         return RedirectToAction(nameof(Index));
@@ -41,21 +44,17 @@ public class RangStarostController : Controller
     public async Task<IActionResult> Edit(int id)
     {
         var rang = await _rangStarostProvider.Get(id);
-        var r = new RangStarostViewModel()
-        {
-            id = rang.Data.Id,
-            naziv = rang.Data.Naziv
-        };
+        var r = rang.Data;
         return View(r);
     }
     [HttpPost]
-    public async Task<IActionResult> Edit(RangStarostViewModel rangStarost)
+    public async Task<IActionResult> Edit(RangStarost rangStarost)
     {
-        RangStarost rang = new RangStarost(rangStarost.id, rangStarost.naziv);
-        var result = await _rangStarostProvider.Edit(rangStarost.id,rang);
-        if (!result.IsSuccess)
+        if(rangStarost == null) return NotFound("Nema poslanih podataka");
+        var result = await _rangStarostProvider.Edit(rangStarost.Id,rangStarost);
+        if (result.IsFailure)
         {
-            return RedirectToAction(nameof(Index));
+            return View(rangStarost);
         }
         return RedirectToAction(nameof(Index));
     }
@@ -67,18 +66,21 @@ public class RangStarostController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(RangStarostViewModel rangStarost)
+    public async Task<IActionResult> Create(RangStarost rangStarost)
     {
         if (rangStarost is not null)
         {
-            RangStarost rang = new RangStarost(rangStarost.id, rangStarost.naziv);
-
-            var result = await _rangStarostProvider.Create(rang);
-            if (!result.IsSuccess)
+            var result = await _rangStarostProvider.Create(rangStarost);
+            if (result.IsFailure)
             {
-                Console.Out.WriteLine("Neuspjesno!");
-                return RedirectToAction(nameof(Index));
+                return View();
             }
+            TempData[Constants.Message] = $"Rang po starosti {rangStarost.Naziv} dodan. Id mjesta = {rangStarost.Id}";
+            TempData[Constants.ErrorOccurred] = false;
+        }
+        else
+        {
+            return View();
         }
 
         return RedirectToAction(nameof(Index));

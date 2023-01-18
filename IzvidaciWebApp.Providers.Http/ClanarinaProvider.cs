@@ -17,7 +17,7 @@ public class ClanarinaProvider : IClanarineProvider
     public ClanarinaProvider(ClanarinaProviderOptions options, IHttpClientFactory httpClientFactory)
     {
         _options = options;
-        _httpClient = httpClientFactory.CreateClient("ClanarinaOptions"); //?
+        _httpClient = httpClientFactory.CreateClient("ClanarinaOptions");
     }
 
     public async Task<Result<Clanarina>> Get(int id)
@@ -46,10 +46,10 @@ public class ClanarinaProvider : IClanarineProvider
     public async Task<Result> Delete(int id)
     {
         String str = "api/Clanarina/" + id + "";
-        var response = _httpClient.DeleteAsync(str).IsCompletedSuccessfully;
-        if (!response)
+        var response = _httpClient.DeleteAsync(str);
+        if (!response.Result.IsSuccessStatusCode)
         {
-            return Results.OnFailure("Neuspjesno");
+            return Results.OnFailure("Greska pri brisanju clanarine");
         }
 
         return Results.OnSuccess("Uspjesno obrisano");
@@ -61,12 +61,12 @@ public class ClanarinaProvider : IClanarineProvider
         var json = JsonConvert.SerializeObject(clanarina);
         var data = new StringContent(json, Encoding.UTF8, "application/json");
         var response = await _httpClient.PostAsync(str, data);
-        if (!(response.StatusCode == HttpStatusCode.Accepted))
+        if (response.StatusCode == HttpStatusCode.BadRequest)
         {
-            return Results.OnFailure("Neuspjesno");
+            return Results.OnFailure("Greska pri dodavanju clanarine");
         }
 
-        return Results.OnSuccess("Uspjesno obrisano");
+        return Results.OnSuccess("Uspjesno dodano");
     }
 
     public async Task<Result> Edit(int id, Clanarina clanarina)
@@ -74,11 +74,11 @@ public class ClanarinaProvider : IClanarineProvider
         String str = "api/Clanarina/" + id;
         var json = JsonConvert.SerializeObject(clanarina);
         var data = new StringContent(json, Encoding.UTF8, "application/json");
-        var response = _httpClient.PutAsync(str, data);
-        if (!response.IsCompleted)
+        var response = await _httpClient.PutAsync(str, data);
+        if (response.StatusCode == HttpStatusCode.BadRequest)
         {
-            return Results.OnFailure("Neuspjesno");
+            return Results.OnFailure("Neuspjesno uredivanje clanarina");
         }
-        return Results.OnSuccess("Uspjesno");
+        return Results.OnSuccess("Uspjesno uredivanje clanarina");
     }
 }

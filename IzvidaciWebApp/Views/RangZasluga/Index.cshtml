@@ -6,7 +6,7 @@
 <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 <style>
     body {
-        background-image: url("https://th.bing.com/th/id/R.5c73556efd3e74b85fd6eb916ff0369f?rik=IbKm1uokF53TPg&pid=ImgRaw&r=0");
+        background-image: url("https://th.bing.com/th/id/R.5c73556efd3e74b85fd6eb916ff0369f?rik=IbKm1uokF53TPg&pid=ImgRaw&r=0")}
 </style>
 
 <body>
@@ -15,25 +15,25 @@
 <table class="table table-sm table-striped table-hover">
     <thead>
     <tr>
-                <th>
-                    <a class="btn btn-warning btn-lg text-center">
-                        Identifikacijski broj
-                    </a>
-                </th>
-                <th>
-                    <a class="btn btn-info btn-lg">
-                        Naziv ranga
-                    </a>
-                </th>
+        <th><a asp-route-sort=1
+               asp-route-ascending="@(Model.sort == 1 ? !Model.ascending : true)">
+            Id
+        </a></th>
+        <th><a asp-route-sort=1
+               asp-route-ascending="@(Model.sort == 1 ? !Model.ascending : true)">
+            Naziv
+        </a></th>
+        <th></th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
     @foreach (var rang in Model.rangovi)
     {
         <tr>
-            <td class="text-center">@rang.id</td>
+            <td class="text-left">@rang.id</td>
             <td class="text-left">@rang.naziv</td>            
-            <td class="text-right">
+            <td>
                 <form asp-action="Edit" method="get"
                       asp-route-id="@rang.id">
                     <button type="submit" class="btn btn-sm btn-success" title="Uredi"><i class="fas fa-edit"></i></button>

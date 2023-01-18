@@ -20,5 +20,9 @@ public static partial class DtoMapping
 
     public static Domain.Models.RangZasluga ToDomain(this RangZaslugaDto clan
     )
-        => new Domain.Models.RangZasluga(clan.id,clan.naziv);
+        => new Domain.Models.RangZasluga
+        {
+            Id = clan.id, 
+            Naziv = clan.naziv
+        };
 }
