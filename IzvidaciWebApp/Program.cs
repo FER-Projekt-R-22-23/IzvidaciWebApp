@@ -95,6 +95,7 @@ builder.Services.AddTransient<IMaterijalnaPotrebaProvider, MaterijalnaPotrebaPro
 builder.Services.AddTransient<ISkolaProvider, SkolaProvider>();
 builder.Services.AddTransient<IUdrugeProvider, UdrugeProvider>();
 builder.Services.AddTransient<IClanProvider, ClanProvider>();
+builder.Services.AddTransient<IProstoriProvider, ProstoriProvider>();
 
 builder.Services.AddTransient<IVoditeljiUdrugeProvider, VoditeljiUdrugeProvider>();
 builder.Services.AddTransient<ICvrstiObjektZaObitavanjeProvider, CvrstiObjektZaObitavanjeProvider>();
@@ -141,7 +142,7 @@ builder.Services.AddHttpClient("UdrugeOptions", client =>
 
 builder.Services.AddHttpClient("VoditeljiUdrugeOptions", client =>
 {
-    client.BaseAddress = new Uri(builder.Configuration.GetSection("VoditeljiUdruge").GetValue<String>("BaseUrl"));
+    client.BaseAddress = new Uri(builder.Configuration.GetSection("Udruge").GetValue<String>("BaseUrl"));
 }).ConfigurePrimaryHttpMessageHandler(x => clientHandler);
 
 builder.Services.AddHttpClient("CvrstiObjektZaObitavanjeOptions", client =>

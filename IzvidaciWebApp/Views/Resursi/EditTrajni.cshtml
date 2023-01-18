@@ -13,12 +13,16 @@
     </div>
     <div class="mb-3">
         <label asp-for="IdUdruga" class="form-label">Id udruge</label>
-        <input asp-for="IdUdruga" class="form-control" required type="number"/>
+        <select required class="form-select" asp-for="IdUdruga" asp-items="@ViewBag.Udruge">
+            <option selected value="" disabled>Odaberite udrugu</option>
+        </select>
         <div class="form-text"><span asp-validation-for="IdUdruga" class="text-danger"></span></div>
     </div>
     <div class="mb-3">
         <label asp-for="IdProstor" class="form-label">Id prostora</label>
-        <input asp-for="IdProstor" class="form-control" required type="number"/>
+        <select required class="form-select" asp-for="IdProstor" asp-items="@ViewBag.Prostori">
+            <option selected value="" disabled>Odaberite prostor</option>
+        </select>
         <div class="form-text"><span asp-validation-for="IdProstor" class="text-danger"></span></div>
     </div>
     <div class="mb-3">

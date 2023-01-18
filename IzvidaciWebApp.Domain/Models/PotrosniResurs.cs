@@ -5,7 +5,7 @@ public class PotrosniResurs : Resurs
 
     private DateTime _rokTrajanja;
     
-    public PotrosniResurs(int id, string naziv, string? napomena, DateTime datumNabave, int idUdruge, int idProstor, DateTime rokTrajanja) : base(naziv, napomena, datumNabave, idUdruge, idProstor, id)
+    public PotrosniResurs(int id, string naziv, string? napomena, DateTime datumNabave, int idUdruge,  string udruga, int idProstor, string prostor, DateTime rokTrajanja) : base(naziv, napomena, datumNabave, idUdruge, udruga, idProstor, prostor, id)
     {
         if (rokTrajanja == DateTime.MinValue)
         {

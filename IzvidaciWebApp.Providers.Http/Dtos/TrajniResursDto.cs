@@ -36,7 +36,9 @@ public static partial class DtoMapping
             resurs.Napomena,
             resurs.DatumNabave,
             resurs.IdUdruge,
+            resurs.Udruga,
             resurs.IdProstor,
+            resurs.Prostor,
             resurs.InventarniBroj,
             resurs.JeDostupno
         );

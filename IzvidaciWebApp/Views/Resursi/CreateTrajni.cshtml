@@ -10,17 +10,21 @@
     
     <div class="mb-3">
         <label asp-for="IdUdruga" class="form-label">Id udruge</label>
-        <input asp-for="IdUdruga" class="form-control" required type="number"/>
+        <select required class="form-select" asp-for="IdUdruga" asp-items="@ViewBag.Udruge">
+            <option selected value="" disabled>Odaberite udrugu</option>
+        </select>
         <div class="form-text"><span asp-validation-for="IdUdruga" class="text-danger"></span></div>
     </div>
     <div class="mb-3">
         <label asp-for="IdProstor" class="form-label">Id prostora</label>
-        <input asp-for="IdProstor" class="form-control" required type="number"/>
+        <select required class="form-select" asp-for="IdProstor" asp-items="@ViewBag.Prostori">
+            <option selected value="" disabled>Odaberite prostor</option>
+        </select>
         <div class="form-text"><span asp-validation-for="IdProstor" class="text-danger"></span></div>
     </div>
     <div class="mb-3">
         <label asp-for="Naziv" class="form-label">Naziv resursa</label>
-        <input asp-for="Naziv" class="form-control" maxlength="50" required/>
+        <input asp-for="Naziv" class="form-control" maxlength="50" required oninvalid="this.setCustomValidity('Naziv resursa je obvezan')"/>
         <div class="form-text"><span asp-validation-for="Naziv" class="text-danger"></span></div>
     </div>
     <div class="mb-3">
@@ -31,6 +35,7 @@
     <div class="mb-3">
         <label asp-for="Dostupno" class="form-label"></label>
         <input hidden="hidden" value="DA" asp-for="Dostupno" class="form-control" required/>
+        <div>DA</div>
         <div class="form-text"><span asp-validation-for="Dostupno" class="text-danger"></span></div>
     </div>
         <div class="mb-3">
